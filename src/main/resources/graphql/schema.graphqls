@@ -1,0 +1,63 @@
+type User {
+    id: ID!
+    email: String!
+    username: String!
+    password: String!
+    roles: String
+    firstName: String!
+    lastName: String!
+    active: Boolean
+}
+
+type Conversation {
+    id: ID!
+    messages: [Message]
+    users: [User]
+}
+
+type Message {
+    id: ID!
+    text: String!
+    conversationId: ID
+    senderId: ID
+}
+
+input AuthenticationRequest {
+    email: String!
+    password: String!
+}
+
+type AuthenticationResponse {
+    token: String!
+}
+
+schema {
+    query: Query
+}
+
+type Query {
+    allUsers: [User]
+}
+
+type Mutation {
+    createUser(
+        email: String!
+        username: String!
+        password: String!
+        firstName: String!
+        lastName: String!
+    ): User
+
+    createConversation(
+        ids: [ID]!
+    ): Conversation
+
+    createMessage(
+        text: String!
+        conversationId: ID!
+    )
+}
+
+type Subsciption {
+    sentMessage(conversationId: ID!): Message
+}
