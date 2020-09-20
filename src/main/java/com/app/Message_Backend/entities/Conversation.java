@@ -1,4 +1,4 @@
-package com.app.Message_Backend.pojo;
+package com.app.Message_Backend.entities;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,7 +9,7 @@ public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
-    @OneToMany
+    @OneToMany(mappedBy="conversation", cascade={CascadeType.ALL})
     public List<Message> messages;
     @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(
@@ -21,6 +21,10 @@ public class Conversation {
 
     public Conversation() {}
 
+    public Conversation(Long id) {
+        this.id = id;
+    }
+
     public Conversation(List<User> users) {
         this.users = users;
     }
@@ -28,6 +32,10 @@ public class Conversation {
     public Conversation(List<Message> messages, List<User> users) {
        this.messages = messages;
        this.users = users;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public List<Message> getMessages() {

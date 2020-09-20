@@ -1,6 +1,6 @@
 package com.app.Message_Backend.auth;
 
-import com.app.Message_Backend.pojo.User;
+import com.app.Message_Backend.entities.User;
 import graphql.servlet.GraphQLContext;
 
 import javax.servlet.http.HttpServletRequest;

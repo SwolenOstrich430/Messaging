@@ -1,14 +1,12 @@
 package com.app.Message_Backend.service;
 
-import com.app.Message_Backend.pojo.User;
+import com.app.Message_Backend.entities.User;
 import com.app.Message_Backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserService {
@@ -20,6 +18,10 @@ public class UserService {
 
     public User save(User user) {
         return userRepository.save(user);
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     public List<User> findAll() {

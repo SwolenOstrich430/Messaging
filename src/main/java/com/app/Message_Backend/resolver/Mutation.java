@@ -1,9 +1,10 @@
 package com.app.Message_Backend.resolver;
 
 import com.app.Message_Backend.auth.AuthenticationUtils;
-import com.app.Message_Backend.pojo.Conversation;
-import com.app.Message_Backend.pojo.Message;
-import com.app.Message_Backend.pojo.User;
+import com.app.Message_Backend.auth.AuthorizationContext;
+import com.app.Message_Backend.entities.Conversation;
+import com.app.Message_Backend.entities.Message;
+import com.app.Message_Backend.entities.User;
 import com.app.Message_Backend.service.ConversationService;
 import com.app.Message_Backend.service.MessageService;
 import com.app.Message_Backend.service.UserService;
@@ -32,19 +33,22 @@ public class Mutation implements GraphQLMutationResolver {
 
     public User createUser(String email, String username, String password,
                            String firstName, String lastName) {
-        System.out.println("got in here:");
         final String salt = authenticationUtils.getSalt().get();
         final String hash = authenticationUtils.getHash(password, salt).get();
 
+        // TODO: actually do something with roles
         User newUser = new User(email, username, hash, firstName, lastName,
                     true, "user", salt);
         return userService.save(newUser);
     }
 
     public Conversation createConversation(List<Long> ids) {
+        // TODO: handle case for if some list of users is already a conversation
         Optional<List<User>> potentialUsers = userService.findAllByIds(ids);
 
         if(!potentialUsers.isPresent()) {
+            // TODO: handle case for if users are there or not
+            // TODO: handle case for if some users are invalid
             System.out.println("no users found");
         }
 
@@ -53,14 +57,19 @@ public class Mutation implements GraphQLMutationResolver {
     }
 
     public Message createMessage(String text, Long conversationId, DataFetchingEnvironment env) throws Exception {
-        Optional<User> potentialUser = Optional.ofNullable(env.getContext());
+        // TODO: do I need to handle this here or does auth context do that for me....?
+        // TODO: can just make this a protected route...?
+        // TODO: Put this into a module or something
+        AuthorizationContext authorizationContext = env.getContext();
+        Optional<User> potentialUser = Optional.ofNullable(authorizationContext.getUser());
 
         if(!potentialUser.isPresent()) {
             System.out.println("no user");
+            // TODO: if I do need to do this, then actually have a module for this
             throw new Exception("unauthorized");
         }
 
-        Message messageToCreate = new Message(text, conversationId, potentialUser.get().getId());
-        return messageService.save(messageToCreate);
+        Message messageToCreate = new Message(text, potentialUser.get().getId());
+        return messageService.save(messageToCreate, conversationId, env);
     }
 }

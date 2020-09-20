@@ -1,10 +1,7 @@
-package com.app.Message_Backend.pojo;
-
-import org.hibernate.annotations.GeneratorType;
+package com.app.Message_Backend.entities;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name="Users")
 public class User {
@@ -20,7 +17,7 @@ public class User {
     private String salt;
     private boolean active;
     private String roles;
-    @ManyToMany(mappedBy = "users", fetch=FetchType.EAGER,cascade = { CascadeType.MERGE })
+    @ManyToMany(mappedBy = "users", fetch=FetchType.EAGER, cascade = { CascadeType.MERGE })
     private List<Conversation> conversations;
 
 
@@ -113,5 +110,9 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public List<Conversation> getConversations() {
+        return conversations;
     }
 }

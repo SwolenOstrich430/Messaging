@@ -7,6 +7,7 @@ import com.app.Message_Backend.graphql.InvocationInputFactory;
 import com.app.Message_Backend.graphql.SchemaProvider;
 import com.app.Message_Backend.resolver.Mutation;
 import com.app.Message_Backend.resolver.Query;
+import com.app.Message_Backend.resolver.Subscription;
 import com.app.Message_Backend.resolver.UserResolver;
 import com.app.Message_Backend.service.ConversationService;
 import com.app.Message_Backend.service.MessageService;
@@ -32,7 +33,7 @@ public class WorkshopApplication {
         SpringApplication.run(WorkshopApplication.class, args);
     }
 
-
+    // TODO: WHY THE FUCK AM I HARD CODING ALL OF THIS....
     @Autowired
     private UserService userService;
     @Autowired
@@ -69,6 +70,7 @@ public class WorkshopApplication {
                 .file("graphql/schema.graphqls")
                 .resolvers(new Query(userService,  jwtUtils, authenticationUtils),
                         new Mutation(userService, conversationService, messageService, authenticationUtils),
+                        new Subscription(),
                         new UserResolver(userService))
                 .build()
                 .makeExecutableSchema();

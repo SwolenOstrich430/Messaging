@@ -1,6 +1,6 @@
 package com.app.Message_Backend.auth;
 
-import com.app.Message_Backend.pojo.User;
+import com.app.Message_Backend.entities.User;
 import graphql.GraphQLException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtUtils {
+    // TODO: throw this in properties
     private final String secret = "0pTosXQqZc0b1oy3UHBJ";
 
     public String build(User user) {
@@ -26,17 +27,16 @@ public class JwtUtils {
                 .compact();
     }
 
-    public User validate(String jwt) {
+    public Long validate(String jwt) {
         try {
             Claims body = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(jwt)
                     .getBody();
 
-            User user = new User(new Long((Integer) body.get("id")), body.getSubject(),
-                    (String) body.get("email"), (String)body.get("roles"));
-
-            return user;
+            Number temp = (Integer) body.get("id");
+            Long userId = temp.longValue();
+            return userId;
         } catch(GraphQLException error) {
             return null;
         }
@@ -48,6 +48,7 @@ public class JwtUtils {
         if(header != null && header.startsWith(("Bearer "))) {
             return header.replace("Bearer ", "");
         } else {
+            System.out.println("returning null");
             return null;
         }
     }

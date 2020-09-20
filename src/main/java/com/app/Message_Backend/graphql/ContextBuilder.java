@@ -2,7 +2,8 @@ package com.app.Message_Backend.graphql;
 
 import com.app.Message_Backend.auth.AuthorizationContext;
 import com.app.Message_Backend.auth.JwtUtils;
-import com.app.Message_Backend.pojo.User;
+import com.app.Message_Backend.entities.User;
+import com.app.Message_Backend.service.UserService;
 import graphql.servlet.DefaultGraphQLContextBuilder;
 import graphql.servlet.GraphQLContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.function.Supplier;
 public class ContextBuilder extends DefaultGraphQLContextBuilder implements Supplier {
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private UserService userService;
 
     public ContextBuilder() { }
 
@@ -25,9 +28,11 @@ public class ContextBuilder extends DefaultGraphQLContextBuilder implements Supp
         if(potentialToken == null) {
             return new AuthorizationContext(null, request);
         } else {
-            User user = jwtUtils.validate(potentialToken);
+            Long validatedUserId = jwtUtils.validate(potentialToken);
+            User validatedUser = userService.findById(validatedUserId).get();
+            System.out.println(validatedUser.getId());
 
-            return new AuthorizationContext(user, request);
+            return new AuthorizationContext(validatedUser, request);
         }
     }
 
@@ -36,3 +41,4 @@ public class ContextBuilder extends DefaultGraphQLContextBuilder implements Supp
         return this;
     }
 }
+

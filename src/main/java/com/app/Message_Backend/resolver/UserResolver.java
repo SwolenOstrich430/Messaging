@@ -1,6 +1,6 @@
 package com.app.Message_Backend.resolver;
 
-import com.app.Message_Backend.pojo.User;
+import com.app.Message_Backend.entities.User;
 import com.app.Message_Backend.service.UserService;
 import com.coxautodev.graphql.tools.GraphQLResolver;
 import org.springframework.beans.factory.annotation.Autowired;

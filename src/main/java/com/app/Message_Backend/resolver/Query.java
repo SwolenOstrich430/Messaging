@@ -4,7 +4,7 @@ import com.app.Message_Backend.auth.AuthenticationRequest;
 import com.app.Message_Backend.auth.AuthenticationResponse;
 import com.app.Message_Backend.auth.AuthenticationUtils;
 import com.app.Message_Backend.auth.JwtUtils;
-import com.app.Message_Backend.pojo.User;
+import com.app.Message_Backend.entities.User;
 import com.app.Message_Backend.service.UserService;
 import graphql.GraphQLException;
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;

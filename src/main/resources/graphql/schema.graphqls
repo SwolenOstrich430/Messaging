@@ -37,6 +37,10 @@ schema {
 
 type Query {
     allUsers: [User]
+
+    authenticateUser(
+        authenticationRequest: AuthenticationRequest!
+    ): AuthenticationResponse
 }
 
 type Mutation {
@@ -55,9 +59,9 @@ type Mutation {
     createMessage(
         text: String!
         conversationId: ID!
-    )
+    ): Message
 }
 
-type Subsciption {
-    sentMessage(conversationId: ID!): Message
+type Subscription {
+    sentMessage: Message
 }
