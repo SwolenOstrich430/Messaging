@@ -1,8 +1,8 @@
-import Message from "./Message";
-import User from "./User";
+import Message from "../messages/Message";
+import User from "../users/User";
+
 
 export default class Conversation {
-
     private id: number;
     private messages: Array<Message>;
     private users: Array<User>;

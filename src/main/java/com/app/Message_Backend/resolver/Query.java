@@ -24,9 +24,6 @@ public class Query implements GraphQLQueryResolver {
         this.authenticationUtils = authenticationUtils;
     }
 
-    public List<User> allUsers() {
-        return userService.findAll();
-    }
 
     public AuthenticationResponse authenticateUser(AuthenticationRequest authRequest) {
         User potentialUser = userService.findUserByEmail(authRequest.getEmail());

@@ -1,6 +1,8 @@
 package com.app.Message_Backend.publishers;
 
 import com.app.Message_Backend.auth.AuthorizationContext;
+import com.app.Message_Backend.dto.MessageDTO;
+import com.app.Message_Backend.dto.MessagesFactory;
 import com.app.Message_Backend.entities.Conversation;
 import com.app.Message_Backend.entities.Message;
 import graphql.schema.DataFetchingEnvironment;
@@ -16,16 +18,16 @@ import java.util.List;
 
 @Component
 public class MessagePublisher {
-    private final Flowable<Message> publisher;
+    private final Flowable<MessageDTO> publisher;
 
-    private ObservableEmitter<Message> emitter;
+    private ObservableEmitter<MessageDTO> emitter;
 
     public MessagePublisher() {
-        Observable<Message> commentUpdateObservable = Observable.create(emitter -> {
+        Observable<MessageDTO> commentUpdateObservable = Observable.create(emitter -> {
             this.emitter = emitter;
         });
 
-        ConnectableObservable<Message> connectableObservable = commentUpdateObservable.share().publish();
+        ConnectableObservable<MessageDTO> connectableObservable = commentUpdateObservable.share().publish();
         connectableObservable.connect();
 
         publisher = connectableObservable.toFlowable(BackpressureStrategy.BUFFER);
@@ -38,12 +40,13 @@ public class MessagePublisher {
         Long sentMessageConvId = createdMessage.getConversationId();
 
         if(conversations.contains(sentMessageConvId)) {
-            emitter.onNext(createdMessage);
+            MessageDTO messageDTOTOSend = MessagesFactory.messageToDTO(createdMessage);
+            emitter.onNext(messageDTOTOSend);
         }
     }
 
 
-    public Flowable<Message> getPublisher() {
+    public Flowable<MessageDTO> getPublisher() {
         return publisher;
     }
 

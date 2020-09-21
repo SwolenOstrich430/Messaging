@@ -1,6 +1,13 @@
 package com.app.Message_Backend.entities;
 
+import org.checkerframework.checker.units.qual.A;
+import org.hibernate.validator.constraints.Length;
+
+import javax.annotation.RegEx;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity(name="Users")
@@ -9,6 +16,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Email
     private String email;
     private String username;
     private String firstName;

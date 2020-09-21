@@ -24,7 +24,7 @@ public class ContextBuilder extends DefaultGraphQLContextBuilder implements Supp
     @Override
     public GraphQLContext build(HttpServletRequest request) {
         String potentialToken = jwtUtils.getToken(request);
-
+        System.out.println("token: " + potentialToken);
         if(potentialToken == null) {
             return new AuthorizationContext(null, request);
         } else {

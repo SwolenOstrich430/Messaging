@@ -2,6 +2,10 @@ package com.app.Message_Backend.resolver;
 
 import com.app.Message_Backend.auth.AuthenticationUtils;
 import com.app.Message_Backend.auth.AuthorizationContext;
+import com.app.Message_Backend.dto.MessageDTO;
+import com.app.Message_Backend.dto.MessagesFactory;
+import com.app.Message_Backend.dto.UserDTO;
+import com.app.Message_Backend.dto.UserFactory;
 import com.app.Message_Backend.entities.Conversation;
 import com.app.Message_Backend.entities.Message;
 import com.app.Message_Backend.entities.User;
@@ -10,6 +14,7 @@ import com.app.Message_Backend.service.MessageService;
 import com.app.Message_Backend.service.UserService;
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import graphql.schema.DataFetchingEnvironment;
+import org.apache.el.util.MessageFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,14 +36,12 @@ public class Mutation implements GraphQLMutationResolver {
         this.authenticationUtils = authenticationUtils;
     }
 
-    public User createUser(String email, String username, String password,
-                           String firstName, String lastName) {
+    public User createUser(UserDTO userDetails) {
         final String salt = authenticationUtils.getSalt().get();
-        final String hash = authenticationUtils.getHash(password, salt).get();
+        final String hash = authenticationUtils.getHash(userDetails.getPassword(), salt).get();
 
         // TODO: actually do something with roles
-        User newUser = new User(email, username, hash, firstName, lastName,
-                    true, "user", salt);
+        User newUser = UserFactory.dtoToUser(userDetails, hash, salt);
         return userService.save(newUser);
     }
 
@@ -56,7 +59,7 @@ public class Mutation implements GraphQLMutationResolver {
         return conversationService.save(newConversation);
     }
 
-    public Message createMessage(String text, Long conversationId, DataFetchingEnvironment env) throws Exception {
+    public MessageDTO createMessage(String text, Long conversationId, DataFetchingEnvironment env) throws Exception {
         // TODO: do I need to handle this here or does auth context do that for me....?
         // TODO: can just make this a protected route...?
         // TODO: Put this into a module or something
@@ -70,6 +73,8 @@ public class Mutation implements GraphQLMutationResolver {
         }
 
         Message messageToCreate = new Message(text, potentialUser.get().getId());
-        return messageService.save(messageToCreate, conversationId, env);
+        Message createdMessage = messageService.save(messageToCreate, conversationId, env);
+
+        return MessagesFactory.messageToDTO(createdMessage);
     }
 }

@@ -1,3 +1,4 @@
+
 type User {
     id: ID!
     email: String!
@@ -9,17 +10,32 @@ type User {
     active: Boolean
 }
 
+input UserDTO {
+    email: String!
+    username: String!
+    password: String!
+    firstName: String!
+    lastName: String!
+}
+
 type Conversation {
     id: ID!
     messages: [Message]
     users: [User]
 }
-
 type Message {
     id: ID!
     text: String!
     conversationId: ID
     senderId: ID
+}
+
+type MessageDTO {
+    id: ID!
+    text: String!
+    conversationId: ID
+    senderId: ID
+    timeSent: String
 }
 
 input AuthenticationRequest {
@@ -36,32 +52,22 @@ schema {
 }
 
 type Query {
-    allUsers: [User]
-
     authenticateUser(
         authenticationRequest: AuthenticationRequest!
     ): AuthenticationResponse
 }
 
 type Mutation {
-    createUser(
-        email: String!
-        username: String!
-        password: String!
-        firstName: String!
-        lastName: String!
-    ): User
+    createUser(newUser: UserDTO): User
 
-    createConversation(
-        ids: [ID]!
-    ): Conversation
+    createConversation(ids: [ID]!): Conversation
 
     createMessage(
         text: String!
         conversationId: ID!
-    ): Message
+    ): MessageDTO
 }
 
 type Subscription {
-    sentMessage: Message
+    sentMessage: MessageDTO
 }

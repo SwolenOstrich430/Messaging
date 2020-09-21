@@ -1,6 +1,6 @@
 package com.app.Message_Backend.resolver;
 
-import com.app.Message_Backend.entities.Message;
+import com.app.Message_Backend.dto.MessageDTO;
 import com.app.Message_Backend.publishers.MessagePublisher;
 import com.coxautodev.graphql.tools.GraphQLSubscriptionResolver;
 import org.reactivestreams.Publisher;
@@ -18,7 +18,7 @@ public class Subscription implements GraphQLSubscriptionResolver {
         this.messagePublisher = messagePublisher;
     }
 
-    public Publisher<Message> sentMessage() {
+    public Publisher<MessageDTO> sentMessage() {
         return messagePublisher.getPublisher();
     }
 }
