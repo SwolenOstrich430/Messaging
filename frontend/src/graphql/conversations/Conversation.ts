@@ -34,7 +34,7 @@ export default class Conversation {
      * Getter $users
      * @return {Array<Users>}
      */
-	public get $users(): Array<User> {
+	public getUsers() {
 		return this.users;
 	}
     
