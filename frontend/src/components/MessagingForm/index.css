@@ -1,0 +1,22 @@
+.messaging-form {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #212529;
+}
+
+.messaging-input {
+    width: 87.5%;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #47525e;
+    border: none;
+    padding: 1px 10px;
+    color: #d1d2d3;
+}
+
+.messaging-input:focus {
+    outline: none;
+}

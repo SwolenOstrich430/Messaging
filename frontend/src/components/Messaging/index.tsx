@@ -5,7 +5,7 @@ import MessagingContainer from "../MessagingContainer";
 
 export default function Messaging() {
     return (
-        <div className="messaging-container">
+        <div className="messaging-page">
             <ConversationContainer/>
             <MessagingContainer/>
         </div>
