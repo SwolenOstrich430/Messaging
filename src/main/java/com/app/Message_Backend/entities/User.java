@@ -1,7 +1,10 @@
 package com.app.Message_Backend.entities;
 
+
 import javax.persistence.*;
-import java.util.List;
+import javax.validation.constraints.Email;
+
+import java.util.Set;
 
 @Entity(name="Users")
 public class User {
@@ -9,6 +12,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Email
     private String email;
     private String username;
     private String firstName;
@@ -18,7 +22,7 @@ public class User {
     private boolean active;
     private String roles;
     @ManyToMany(mappedBy = "users", fetch=FetchType.EAGER, cascade = { CascadeType.MERGE })
-    private List<Conversation> conversations;
+    private Set<Conversation> conversations;
 
 
     public User() { }
@@ -112,7 +116,16 @@ public class User {
         this.salt = salt;
     }
 
-    public List<Conversation> getConversations() {
+    public Set<Conversation> getConversations() {
         return conversations;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Long id = ((User) obj).getId();
+        System.out.println("got in equals");
+        System.out.println("other id: " + id);
+        System.out.println("this id: " + this.id);
+        return this.id.equals(id);
     }
 }

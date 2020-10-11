@@ -1,12 +1,21 @@
+scalar Date
+
 type User {
     id: ID!
     email: String!
     username: String!
-    password: String!
     roles: String
     firstName: String!
     lastName: String!
     active: Boolean
+}
+
+input UserDTO {
+    email: String!
+    username: String!
+    password: String!
+    firstName: String!
+    lastName: String!
 }
 
 type Conversation {
@@ -14,12 +23,20 @@ type Conversation {
     messages: [Message]
     users: [User]
 }
-
 type Message {
     id: ID!
     text: String!
     conversationId: ID
     senderId: ID
+    timeSent: Date
+}
+
+type MessageDTO {
+    id: ID!
+    text: String!
+    conversationId: ID
+    senderId: ID
+    timeSent: String
 }
 
 input AuthenticationRequest {
@@ -29,32 +46,32 @@ input AuthenticationRequest {
 
 type AuthenticationResponse {
     token: String!
+    id: Long!
 }
 
 schema {
     query: Query
+    mutation: Mutation
+    subscription: Subscription
 }
 
 type Query {
-    allUsers: [User]
-
     authenticateUser(
         authenticationRequest: AuthenticationRequest!
     ): AuthenticationResponse
+
+    findUserByUsername(
+        username: String
+    ): User
+
+    getConversations: [Conversation]
+
 }
 
 type Mutation {
-    createUser(
-        email: String!
-        username: String!
-        password: String!
-        firstName: String!
-        lastName: String!
-    ): User
+    createUser(newUser: UserDTO): User
 
-    createConversation(
-        ids: [ID]!
-    ): Conversation
+    createConversation(recipientIds: [ID]): Conversation
 
     createMessage(
         text: String!
@@ -64,4 +81,5 @@ type Mutation {
 
 type Subscription {
     sentMessage: Message
+    createdConversation: Conversation
 }

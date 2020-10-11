@@ -1,0 +1,15 @@
+.conversation-list {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.conversation-list::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    width: 0px;
+}
+
+.conversation-list::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0px;
+}

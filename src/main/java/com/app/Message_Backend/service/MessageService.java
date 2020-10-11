@@ -5,6 +5,7 @@ import com.app.Message_Backend.entities.Conversation;
 import com.app.Message_Backend.entities.Message;
 import com.app.Message_Backend.publishers.MessagePublisher;
 import com.app.Message_Backend.repository.MessageRepository;
+import graphql.GraphQLException;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,10 +39,9 @@ public class MessageService {
 
         if(!potentialMessage.isPresent()) {
             System.out.println("could not create message");
-            return null;
+            throw new GraphQLException("could not create message");
         }
 
-        messagePublisher.publish(potentialMessage.get(), env.getContext());
         return potentialMessage.get();
     }
 }

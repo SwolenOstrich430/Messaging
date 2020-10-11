@@ -1,8 +1,11 @@
 package com.app.Message_Backend.entities;
 
+import com.app.Message_Backend.listeners.SaveListener;
+
 import javax.persistence.*;
 import java.util.Date;
 
+@EntityListeners( SaveListener.class )
 @Entity(name = "Messages")
 public class Message {
     @Id
