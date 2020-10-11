@@ -1,5 +1,5 @@
 import "./index.css";
-import React, { Fragment } from "react";
+import React from "react";
 import ConversationHeader from "../ConversationHeader";
 import ConversationList from "../ConversationList";
 

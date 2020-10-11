@@ -13,7 +13,7 @@ export default function MessageDisplay(props: any) {
 
     return (
         <div className="message-display">
-            <p className={getClassName(props.senderId == 2)}>
+            <p className={getClassName(props.sent)}>
                 {props.text}
             </p>
         </div>

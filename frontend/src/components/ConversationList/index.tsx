@@ -1,36 +1,41 @@
 import "./index.css";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { connect } from "react-redux";
+import { getConversations, createdConversation } from "../../actions/conversations";
+import { createdMessage } from "../../actions/messages";
 import Conversation from "../../graphql/conversations/Conversation";
 import Message from "../../graphql/messages/Message";
 import User from "../../graphql/users/User";
 import ConversationDisplay from "../ConversationDisplay";
 
 
-const conversations: Array<Conversation>= new Array<Conversation>();
-const mess1: Message = new Message(1, "some message", 2, 2, new Date());
-const user1: User = new User(1, "blah", "blahj", "Other", "User");
-const conv1: Conversation = new Conversation(1, [mess1], [user1]);
-const conv2: Conversation = new Conversation(2, [mess1], [user1]);
-conversations.push(conv1);
-conversations.push(conv2)
-
-
-
-export default function ConversationList() {
+function ConversationList(props: any) {
+    const conversations = useSelector((state: any) => state.conversations.conversations);
+    
+    useEffect(() => {
+        props.getConversations();
+        props.createdConversation();
+        props.createdMessage();
+    }, [])
+    
     const conversationToComponent = (conversation: Conversation) => {
-        const users: Array<User> = conversation.getUsers();
-        const lastMessage: Message = conversation.getMessages()[0];
+        const users: Array<User> = conversation.users;
+        const lastMessage: Message = conversation.messages[0];
         
         return <ConversationDisplay 
+                key={conversation.id}
                 users={users} 
                 lastMessage={lastMessage} 
-                title="title"
+                title={conversation.title}
                />
     }
 
     return (
         <div className="conversation-list">
-            {conversations.map(conversationToComponent)}
+            {conversations.length > 0 && conversations.map(conversationToComponent)}
         </div>
     )
 }
+
+export default connect(null, { getConversations, createdConversation, createdMessage })(ConversationList);

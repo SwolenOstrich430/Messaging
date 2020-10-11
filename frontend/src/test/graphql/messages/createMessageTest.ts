@@ -1,4 +1,4 @@
-import { CREATE_MESSAGE } from "../../../graphql/messages/messages";
+import { CREATE_MESSAGE_MUT } from "../../../graphql/messages/messages";
 import client from "../../../graphql/index";
 import messageTestData from "../resources/messagesToSend.json";
 
@@ -7,7 +7,7 @@ test("create message with valid inputs", async function() {
     const textToSend: string = "some text"; 
     
     let res = await client.mutate({ 
-        mutation: CREATE_MESSAGE, 
+        mutation: CREATE_MESSAGE_MUT, 
         variables: {
             conversationId: messageTestData.conversationId, 
             text: textToSend

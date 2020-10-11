@@ -1,9 +1,9 @@
+scalar Date
 
 type User {
     id: ID!
     email: String!
     username: String!
-    password: String!
     roles: String
     firstName: String!
     lastName: String!
@@ -28,6 +28,7 @@ type Message {
     text: String!
     conversationId: ID
     senderId: ID
+    timeSent: Date
 }
 
 type MessageDTO {
@@ -45,29 +46,40 @@ input AuthenticationRequest {
 
 type AuthenticationResponse {
     token: String!
+    id: Long!
 }
 
 schema {
     query: Query
+    mutation: Mutation
+    subscription: Subscription
 }
 
 type Query {
     authenticateUser(
         authenticationRequest: AuthenticationRequest!
     ): AuthenticationResponse
+
+    findUserByUsername(
+        username: String
+    ): User
+
+    getConversations: [Conversation]
+
 }
 
 type Mutation {
     createUser(newUser: UserDTO): User
 
-    createConversation(ids: [ID]!): Conversation
+    createConversation(recipientIds: [ID]): Conversation
 
     createMessage(
         text: String!
         conversationId: ID!
-    ): MessageDTO
+    ): Message
 }
 
 type Subscription {
-    sentMessage: MessageDTO
+    sentMessage: Message
+    createdConversation: Conversation
 }

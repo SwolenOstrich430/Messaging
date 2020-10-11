@@ -5,6 +5,7 @@ import graphql.GraphQLException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,29 +28,31 @@ public class JwtUtils {
                 .compact();
     }
 
-    public Long validate(String jwt) {
+    public UserDetailsImp validate(String jwt) {
         try {
             Claims body = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(jwt)
                     .getBody();
 
-            Number temp = (Integer) body.get("id");
-            Long userId = temp.longValue();
-            return userId;
+
+            return new UserDetailsImp(body.getSubject(), "", jwt);
         } catch(GraphQLException error) {
-            return null;
+            return new UserDetailsImp();
         }
     }
 
     public String getToken(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
+        String tokenFromQueryOrMutation = request.getHeader("Authorization");
 
-        if(header != null && header.startsWith(("Bearer "))) {
-            return header.replace("Bearer ", "");
-        } else {
-            System.out.println("returning null");
-            return null;
+        if(tokenFromQueryOrMutation != null && tokenFromQueryOrMutation.startsWith(("Bearer "))) {
+            return tokenFromQueryOrMutation.replace("Bearer ", "");
         }
+
+        String tokenFromSubsctription = request.getParameter("authToken");
+        System.out.println(tokenFromSubsctription);
+        if(tokenFromSubsctription != null) return tokenFromSubsctription;
+
+        return null;
     }
 }

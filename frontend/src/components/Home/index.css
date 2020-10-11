@@ -1,0 +1,25 @@
+.home-page {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-change-auth-form {
+    margin-top: 10px;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    color: #1a171d;
+}
+
+.home-change-auth-form:hover {
+    color: #6a5c75;
+}
+
+.home-change-auth-form:focus {
+    color: #6a5c75;
+    outline: none;
+}

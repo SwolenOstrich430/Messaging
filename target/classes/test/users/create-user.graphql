@@ -1,9 +1,0 @@
-mutation {
-    createUser(
-        email: "test@test.com"
-        username: "myTestUser"
-        password: "test"
-        firstName: "Mytest"
-        lastName: "User"
-    ): User
-}

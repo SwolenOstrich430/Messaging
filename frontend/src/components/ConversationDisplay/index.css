@@ -4,19 +4,29 @@
     padding: 5px 0px;
     border-bottom: 1px solid #4a5058;
     display: flex;
+    margin-left: 20px;
 }
 
 .contact-image-container {
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    background: black;
     align-self: flex-start;
     margin-right: 10px;
+    background-color: #2b3238;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-initials {
+    margin: 0;
+    color: white;
+    font-weight: 500;
 }
 
 .conversation-details-container {
-    width: calc(100% - 70px);
+    width: calc(100% - 90px);
 }
 
 .conversation-title-time-container {
@@ -24,6 +34,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    text-overflow: clip;
 }
 
 .conversation-title-time-container p {

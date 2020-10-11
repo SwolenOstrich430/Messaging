@@ -1,21 +1,26 @@
 package com.app.Message_Backend.resolver;
 
-import com.app.Message_Backend.auth.AuthenticationRequest;
-import com.app.Message_Backend.auth.AuthenticationResponse;
-import com.app.Message_Backend.auth.AuthenticationUtils;
-import com.app.Message_Backend.auth.JwtUtils;
+import com.app.Message_Backend.auth.*;
+import com.app.Message_Backend.dto.UserBuilder;
+import com.app.Message_Backend.dto.UserDTO;
+import com.app.Message_Backend.entities.Conversation;
 import com.app.Message_Backend.entities.User;
 import com.app.Message_Backend.service.UserService;
 import graphql.GraphQLException;
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import graphql.kickstart.tools.GraphQLQueryResolver;
+import graphql.schema.DataFetchingEnvironment;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-
+@Component
 public class Query implements GraphQLQueryResolver {
-
+    @Autowired
     private final UserService userService;
+    @Autowired
     private final JwtUtils jwtUtils;
+    @Autowired
     private final AuthenticationUtils authenticationUtils;
 
     public Query(UserService userService, JwtUtils jwtUtils, AuthenticationUtils authenticationUtils) {
@@ -26,15 +31,34 @@ public class Query implements GraphQLQueryResolver {
 
 
     public AuthenticationResponse authenticateUser(AuthenticationRequest authRequest) {
-        User potentialUser = userService.findUserByEmail(authRequest.getEmail());
+        User user = userService.findUserByEmail(authRequest.getEmail());
 
-        if(authenticationUtils.isCorrectPassword(authRequest.getPassword(), potentialUser.getSalt(),
-                potentialUser.getPassword())) {
-            String jwt = jwtUtils.build(potentialUser);
-            return new AuthenticationResponse(jwt);
+        if(authenticationUtils.isCorrectPassword(authRequest.getPassword(), user.getSalt(),
+                user.getPassword())) {
+            String jwt = jwtUtils.build(user);
+            return new AuthenticationResponse(jwt, user.getId());
         } else {
             throw new GraphQLException("Email or password not valid");
         }
+    }
+
+    public User findUserByUsername(String username) {
+        Optional<User> potentialUser = userService.findUserByUsername(username);
+        if(!potentialUser.isPresent()) {
+            throw new GraphQLException("Could not find user " + username);
+        }
+
+        return potentialUser.get();
+    }
+
+    public Set<Conversation> getConversations(DataFetchingEnvironment env) {
+        Optional<User> potentialUser = Optional.ofNullable(userService.getUserFromContext());
+
+        if(!potentialUser.isPresent()) {
+            throw new GraphQLException("Unauthorized");
+        }
+
+        return potentialUser.get().getConversations();
     }
 
 }

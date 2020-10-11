@@ -1,14 +1,10 @@
 package com.app.Message_Backend.entities;
 
-import org.checkerframework.checker.units.qual.A;
-import org.hibernate.validator.constraints.Length;
 
-import javax.annotation.RegEx;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.List;
+
+import java.util.Set;
 
 @Entity(name="Users")
 public class User {
@@ -26,7 +22,7 @@ public class User {
     private boolean active;
     private String roles;
     @ManyToMany(mappedBy = "users", fetch=FetchType.EAGER, cascade = { CascadeType.MERGE })
-    private List<Conversation> conversations;
+    private Set<Conversation> conversations;
 
 
     public User() { }
@@ -120,7 +116,16 @@ public class User {
         this.salt = salt;
     }
 
-    public List<Conversation> getConversations() {
+    public Set<Conversation> getConversations() {
         return conversations;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Long id = ((User) obj).getId();
+        System.out.println("got in equals");
+        System.out.println("other id: " + id);
+        System.out.println("this id: " + this.id);
+        return this.id.equals(id);
     }
 }

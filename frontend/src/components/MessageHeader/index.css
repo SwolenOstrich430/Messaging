@@ -12,10 +12,59 @@
     color: #4a5058;
     margin: 0 0 10px 5px;
     align-self: flex-end;
+    display: inline;
 }
 
 .message-recipient {
-    font-size: 12px;
     color: #d1d2d3;
-    margin-left: 2.5px
+    margin-left: 5px
+}
+
+.add-recipient-form {
+    background-color: inherit;
+    border: none;
+    color: #4a5058;
+    display: inline;
+    align-self: flex-end;
+    margin: 0 0 10px 5px;
+}
+
+.add-recipient-input {
+    background-color: inherit;
+    border: none;
+    padding: 0px;
+    color: #d1d2d3; 
+    width: 90px;
+}
+
+.add-recipient-input:focus {
+    outline: none;
+}
+
+.add-recipient-error-message {
+    color: #d1d2d3;
+    margin: 0 5px 7.5px 15px;
+    background-color: #733ea5;
+    padding: 2.5px 5px;
+    border-radius: 5px;
+}
+
+.submit-conversation-button {
+    align-self: flex-end;
+    margin: 0 20px 7.5px auto;
+    background-color: #1a171d;
+    color: #733ea5;
+    border-radius: 2.5px; 
+    border: 1px solid #733ea5;
+    padding: 5px 4px;
+    font-weight: 800;
+}
+
+.submit-conversation-button:hover {
+    opacity: 0.5;
+}
+
+.submit-conversation-button:focus {
+    border: 1px solid #d1d2d3;
+    outline: none;
 }

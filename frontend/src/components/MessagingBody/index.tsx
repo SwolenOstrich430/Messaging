@@ -1,21 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.css";
 import Message from "../../graphql/messages/Message";
 import User from "../../graphql/users/User";
 import MessageDisplay from "../MessageDispaly";
-
-const messages: Array<Message> = [];
-const mess1: Message = new Message(1, "3 some message", 2, 2, new Date());
-const mess2: Message = new Message(1, "2 some message", 3, 3, new Date());
-const mess3: Message = new Message(1, "1 some message", 2, 2, new Date());
-const user: User = new User(2, "someUser", "email", "first", "last");
-messages.push(mess1, mess2, mess3);
+import { useSelector } from "react-redux";
+import Conversation from "../../graphql/conversations/Conversation";
 
 
 export default function MessagingBody(props: any) {
+    const conversations: Array<Conversation> = useSelector((state: any) => state.conversations.conversations);
+    const focusedConversationId: number = useSelector((state: any) => state.conversations.focusedConversation.id);
+    const currUserId: number = useSelector((state: any) => state.user.currUserId);
+    const [isScrolling, setIsScrolling] = useState(false);
+
+    const getFocusedMessageConversations = (conversations: Array<Conversation>, conversationId: number) => {
+        for(const conv of conversations) {
+            if(conv.id === conversationId) return conv.messages;
+        }
+    }
+
+    const handleScroll = (event: any) => {
+        setIsScrolling(true);
+    }
+
+    const getStyle = () => {
+        let scrollStyle = isScrolling ? "scroll" as "scroll" : "auto" as "auto";
+        
+        return {
+            "overflowY": scrollStyle
+        }
+    }
+
+    let messages = getFocusedMessageConversations(conversations, focusedConversationId);
+    console.log("curr user id: " + currUserId);
     return (
-        <main className="messaging-body">
-            {messages.map(message => <MessageDisplay {...message}/>)}
+        <main style={getStyle()} className="messaging-body" onScroll={handleScroll}>
+            {messages && messages.map(message => <MessageDisplay key={message.id} sent={message.senderId === currUserId} {...message}/>)}
         </main>
     )
 }
