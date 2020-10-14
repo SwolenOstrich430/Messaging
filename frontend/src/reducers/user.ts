@@ -1,4 +1,4 @@
-import { AUTHENTICATE_USER } from "../actions/types";
+import { AUTHENTICATE_USER, LOGOUT_USER } from "../actions/types";
 
 
 const initialState = {
@@ -16,6 +16,15 @@ export default function(state=initialState, action: any) {
             return {
                 ...state,
                 currUserId: payload.currUserId,
+            }
+
+        case LOGOUT_USER: 
+            localStorage.setItem("token", "");
+            localStorage.setItem("id", "");
+            return {
+                ...state, 
+                currUserId: 0, 
+                token: ""
             }
         
         default:

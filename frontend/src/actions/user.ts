@@ -1,4 +1,4 @@
-import { CREATE_USER, AUTHENTICATE_USER, AUTH_ERROR } from "./types";
+import { CREATE_USER, AUTHENTICATE_USER, AUTH_ERROR, LOGOUT_USER } from "./types";
 import { AUTHENTICATE_USER_QUE, CREATE_USER_MUT } from "../graphql/users/users";
 import AuthenticationRequest from "../graphql/users/AuthenticationRequest";
 import client from "../graphql/index";
@@ -44,5 +44,11 @@ export const createUser = (newUser: UserDTO) => (dispatch: Function) => {
     })
     .catch(error => {
         console.log(error);
+    })
+}
+
+export const logoutUser = () => (dispatch: Function) => {
+    dispatch({
+        type: LOGOUT_USER
     })
 }

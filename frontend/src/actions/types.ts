@@ -20,3 +20,4 @@ export const CREATED_MESSAGE = "CREATED_MESSAGE";
 export const AUTHENTICATE_USER = "AUTHENTICATE USER";
 export const CREATE_USER = "CREATE_USER";
 export const AUTH_ERROR = "AUTH_ERROR";
+export const LOGOUT_USER = "LOGOUT_USER";
