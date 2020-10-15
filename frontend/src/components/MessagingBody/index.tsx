@@ -9,7 +9,7 @@ import Conversation from "../../graphql/conversations/Conversation";
 
 export default function MessagingBody(props: any) {
     const conversations: Array<Conversation> = useSelector((state: any) => state.conversations.conversations);
-    const focusedConversationId: number = useSelector((state: any) => state.conversations.focusedConversation.id);
+    const focusedConversation: Conversation = useSelector((state: any) => state.conversations.focusedConversation);
     const currUserId: number = useSelector((state: any) => state.user.currUserId);
     const [isScrolling, setIsScrolling] = useState(false);
 
@@ -31,7 +31,7 @@ export default function MessagingBody(props: any) {
         }
     }
 
-    let messages = getFocusedMessageConversations(conversations, focusedConversationId);
+    let messages = focusedConversation && getFocusedMessageConversations(conversations, focusedConversation.id);
     console.log("curr user id: " + currUserId);
     return (
         <main style={getStyle()} className="messaging-body" onScroll={handleScroll}>

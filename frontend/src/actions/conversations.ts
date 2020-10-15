@@ -3,7 +3,8 @@ import {
     ADD_RECIPIENT, 
     ADD_RECIPIENT_ERROR, 
     GET_CONVERSATIONS, 
-    CREATED_CONVERSATION 
+    CREATED_CONVERSATION, 
+    FOCUS_ON_CONVERSATION 
 } from "./types";
 import { 
     FIND_USER_BY_USERNAME, 
@@ -108,5 +109,14 @@ export const createConversation = (recipientIds: Array<number>) => (dispatch: Fu
                 error: error, 
             }
         })
+    })
+}
+
+export const focusOnConversation = (conversation: Conversation) => (dispatch: Function) => {
+    dispatch({
+        type: FOCUS_ON_CONVERSATION, 
+        payload: {
+            focusedConversation: conversation
+        }
     })
 }

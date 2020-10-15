@@ -12,7 +12,9 @@ import ConversationDisplay from "../ConversationDisplay";
 
 function ConversationList(props: any) {
     const conversations = useSelector((state: any) => state.conversations.conversations);
-    
+    const focusedConversation = useSelector((state: any) => state.conversations.focusedConversation);
+
+
     useEffect(() => {
         props.getConversations();
         props.createdConversation();
@@ -20,14 +22,10 @@ function ConversationList(props: any) {
     }, [])
     
     const conversationToComponent = (conversation: Conversation) => {
-        const users: Array<User> = conversation.users;
-        const lastMessage: Message = conversation.messages[0];
-        
         return <ConversationDisplay 
                 key={conversation.id}
-                users={users} 
-                lastMessage={lastMessage} 
-                title={conversation.title}
+                conversation={conversation}
+                focused={conversation.id === focusedConversation.id}
                />
     }
 

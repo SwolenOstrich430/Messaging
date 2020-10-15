@@ -23,6 +23,7 @@ export const createMessage = (text: string, conversationId: number) => (dispatch
 }
 
 export const createdMessage = () => (dispatch: Function) => {
+    console.log("got inc reated message");
     client.subscribe({
         query: CREATED_MESSAGE_SUB
     })

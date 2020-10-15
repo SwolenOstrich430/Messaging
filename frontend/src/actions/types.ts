@@ -1,5 +1,6 @@
 // Conversation 
 // UI 
+export const FOCUS_ON_CONVERSATION = "FOCUS_ON_CONVERSATION";
 export const CREATING_CONVERSATION = "CREATING_CONVERSATION"; 
 // state 
 export const ADD_RECIPIENT = "ADD_RECIPIENT";
@@ -13,9 +14,9 @@ export const GET_CONVERSATIONS = "GET_CONVERSATIONS";
 export const CREATE_MESSAGE = "CREATE_MESSAGE";
 export const CREATED_MESSAGE = "CREATED_MESSAGE";
 
-
 // User 
 // UI
+export const SHOW_LOGIN = "SHOW_LOGIN";
 // state
 export const AUTHENTICATE_USER = "AUTHENTICATE USER";
 export const CREATE_USER = "CREATE_USER";

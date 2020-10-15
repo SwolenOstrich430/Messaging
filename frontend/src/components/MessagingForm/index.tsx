@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, Fragment } from "react";
 import { useSelector, connect } from "react-redux";
 import "./index.css";
 import Message from "../../graphql/messages/Message";
@@ -13,7 +13,9 @@ function MessagingForm(props: any) {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
+        console.log("got in handle submit");
         if(creatingConversation) return;
+        console.log("got past creating conversation");
         props.createMessage(newMessage, focusedConverstaion.id);
     }
 
@@ -23,16 +25,18 @@ function MessagingForm(props: any) {
     }
 
     return (
-        <form className="messaging-form" onSubmit={handleSubmit}>
-            <input 
-             className="messaging-input" 
-             type="text" 
-             placeholder="uMessage"
-             value={newMessage}
-             onChange={e => handleSetMessage(e.target.value)}
-            />
+        <div className="messaging-form-container">
+            <form className="messaging-form" onSubmit={handleSubmit}>
+                <input 
+                 className="messaging-input" 
+                 type="text" 
+                 placeholder="uMessage"
+                 value={newMessage}
+                 onChange={e => handleSetMessage(e.target.value)}
+                />
+            </form>
             <LogoutButton/>
-        </form>
+        </div>
     )
 }
 

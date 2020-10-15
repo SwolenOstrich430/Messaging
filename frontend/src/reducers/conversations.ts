@@ -4,7 +4,8 @@ import {
     ADD_RECIPIENT_ERROR,
     GET_CONVERSATIONS, 
     CREATED_CONVERSATION, 
-    CREATED_MESSAGE
+    CREATED_MESSAGE, 
+    FOCUS_ON_CONVERSATION
 } from "../actions/types";
 import Conversation from "../graphql/conversations/Conversation";
 import Message from "../graphql/messages/Message";
@@ -102,6 +103,13 @@ export default function(state=initialState, action: any) {
                 ...state, 
                 addRecipientError: payload.error
             }
+
+        case FOCUS_ON_CONVERSATION: 
+            return {
+                ...state, 
+                focusedConversation: payload.focusedConversation
+            }
+
         default: {
             return state
         }

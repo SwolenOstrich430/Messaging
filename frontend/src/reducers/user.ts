@@ -1,9 +1,11 @@
-import { AUTHENTICATE_USER, LOGOUT_USER } from "../actions/types";
+import { AUTHENTICATE_USER, LOGOUT_USER, CREATE_USER, SHOW_LOGIN } from "../actions/types";
 
 
 const initialState = {
     currUserId: localStorage.getItem("id"), 
     token: localStorage.getItem("token"), 
+    authError: {}, 
+    showLogin: true
 }
 
 
@@ -12,10 +14,14 @@ export default function(state=initialState, action: any) {
     console.log("got in user reducer");
     console.log(initialState);
     switch(type) {
-        case AUTHENTICATE_USER: 
+        case AUTHENTICATE_USER:
+            localStorage.setItem("token", payload.token);
+            localStorage.setItem("id", payload.currUserId);
+            
             return {
                 ...state,
                 currUserId: payload.currUserId,
+                token: payload.token
             }
 
         case LOGOUT_USER: 
@@ -25,6 +31,19 @@ export default function(state=initialState, action: any) {
                 ...state, 
                 currUserId: 0, 
                 token: ""
+            }
+        
+        case CREATE_USER: 
+            return {
+                ...state, 
+                authError: {}, 
+                showLogin: true
+            }
+        
+        case SHOW_LOGIN: 
+            return {
+                ...state, 
+                showLogin: payload.showLogin
             }
         
         default:
