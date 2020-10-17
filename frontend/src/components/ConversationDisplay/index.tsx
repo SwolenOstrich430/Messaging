@@ -21,6 +21,7 @@ function ConversationDisplay(props: any) {
     }
 
     const getInitialsFromUser = (user: User) => {
+        if(!user) return "";
         return user.firstName.substring(0, 1).toUpperCase() + user.lastName.substring(0, 1).toUpperCase();
     }
 
@@ -30,7 +31,7 @@ function ConversationDisplay(props: any) {
             <div className="contact-image-container">
                 <div className="contact-main">
                     <p className="contact-initials">
-                        {!creatingConversation && getInitialsFromUser(props.displayUser)}
+                        {getInitialsFromUser(props.displayUser)}
                     </p>
                 </div>
             </div>

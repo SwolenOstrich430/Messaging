@@ -21,6 +21,10 @@ function MessageHeader(props: any) {
         setNewRecipient("");
     }
 
+    const cancelConversation = (event: FormEvent) => {
+        
+    }
+
     const createNewConversation = (event: FormEvent, conversation: Conversation) => {
         event.preventDefault();
 

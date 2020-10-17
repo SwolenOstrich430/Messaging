@@ -72,3 +72,15 @@
     border: 1px solid #d1d2d3;
     outline: none;
 }
+
+
+@media screen and (max-width: 640px) {
+    .submit-conversation-button {
+        width: 50px;
+        height: 20px;
+        font-size: 10px;
+        padding: 2px;
+        margin-bottom: 7.5px;
+        margin-right: 5px;
+    }
+}

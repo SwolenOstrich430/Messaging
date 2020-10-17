@@ -1,6 +1,7 @@
 .messaging-form-container {
     display: flex;
     background-color: #212529;
+    width: 100%;
 }
 
 .messaging-form {
@@ -23,4 +24,16 @@
 
 .messaging-input:focus {
     outline: none;
+}
+
+@media screen and (max-width: 650px) {
+    .messaging-form {
+        width: 87.5%;
+    }
+}
+
+@media screen and (max-width: 551px) {
+    .messaging-form {
+        width: 80%;
+    }
 }

@@ -35,11 +35,10 @@
 }
 
 .conversation-title-time-container {
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    text-overflow: clip;
+    text-overflow: ellipsis;
 }
 
 .conversation-title-time-container p {
@@ -54,8 +53,9 @@
 
 .conversation-time-display {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
     color: #d1d2d3;
+    white-space: nowrap;
 }
 
 .conversation-last-message-display {
@@ -63,4 +63,39 @@
     font-size: 14px;
     color: #d1d2d3; 
     margin: 2.5px 0 0 0;
+    width: 90%;
+    overflow: hidden;
+    max-height: 35px;
 }
+
+
+
+@media screen and (max-width: 1300px) {
+    .conversation-last-message-display {
+        max-height: 18px
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .conversation-time-display {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 640px) {
+    .conversation-title {
+        font-size: 14px;
+    }
+
+    .conversation-last-message-display {
+        font-size: 12px;
+    }
+
+    .contact-image-container {
+        width: 45px;
+        height: 45px;
+        margin-top: 7.5px;
+    }
+}
+
