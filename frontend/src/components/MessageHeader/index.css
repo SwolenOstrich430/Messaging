@@ -49,9 +49,13 @@
     border-radius: 5px;
 }
 
-.submit-conversation-button {
+.creating-conversation-button-container {
     align-self: flex-end;
-    margin: 0 20px 7.5px auto;
+    margin-left: auto;
+}
+
+.submit-conversation-button {
+    margin: 0 20px 5px 0;
     background-color: #1a171d;
     color: #733ea5;
     border-radius: 2.5px; 

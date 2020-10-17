@@ -32,10 +32,16 @@ export default function MessagingBody(props: any) {
     }
 
     let messages = focusedConversation && getFocusedMessageConversations(conversations, focusedConversation.id);
-    console.log("curr user id: " + currUserId);
+    
     return (
         <main style={getStyle()} className="messaging-body" onScroll={handleScroll}>
-            {messages && messages.map(message => <MessageDisplay key={message.id} sent={message.senderId === currUserId} {...message}/>)}
+            {messages && messages.map(message => {
+                console.log("sender id: " + message.senderId);
+                console.log("curr user id: " + currUserId);
+                return (
+                    <MessageDisplay key={message.id} sent={message.senderId == currUserId} {...message}/>
+                )
+            })}
         </main>
     )
 }

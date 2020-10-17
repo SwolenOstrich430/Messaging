@@ -13,9 +13,7 @@ function MessagingForm(props: any) {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        console.log("got in handle submit");
         if(creatingConversation) return;
-        console.log("got past creating conversation");
         props.createMessage(newMessage, focusedConverstaion.id);
     }
 

@@ -4,7 +4,8 @@ import {
     ADD_RECIPIENT_ERROR, 
     GET_CONVERSATIONS, 
     CREATED_CONVERSATION, 
-    FOCUS_ON_CONVERSATION 
+    FOCUS_ON_CONVERSATION, 
+    CANCEL_CREATING_CONVERSATION
 } from "./types";
 import { 
     FIND_USER_BY_USERNAME, 
@@ -61,6 +62,12 @@ export const creatingConversation = (creatingConversation: boolean) => (dispatch
         payload: {
             creatingConversation
         }
+    })
+}
+
+export const cancelCreatingConversation = () => (dispatch: Function) => {
+    return dispatch({
+        type: CANCEL_CREATING_CONVERSATION
     })
 }
 

@@ -5,7 +5,8 @@ import {
     GET_CONVERSATIONS, 
     CREATED_CONVERSATION, 
     CREATED_MESSAGE, 
-    FOCUS_ON_CONVERSATION
+    FOCUS_ON_CONVERSATION,
+    CANCEL_CREATING_CONVERSATION
 } from "../actions/types";
 import Conversation from "../graphql/conversations/Conversation";
 import Message from "../graphql/messages/Message";
@@ -18,13 +19,11 @@ const getConverationsAfterNewMessage = (newMessage: Message, conversations: Arra
 
     for(let conversation of conversations) {
         if(conversation.id === newMessage.conversationId) {
-            console.log("got in if statement");
             let { id, title, users, messages } = conversation;
             conversationWithNewMessage = new Conversation(id, title, [newMessage, ...messages], users);
-            console.log(conversationWithNewMessage);
         }
     }
-    console.log(copyOfConversations);
+  
     return copyOfConversations.length > 0 ? 
             [conversationWithNewMessage, ...copyOfConversations] : 
             [conversationWithNewMessage];
@@ -62,7 +61,6 @@ export default function(state=initialState, action: any) {
             }
 
         case CREATED_MESSAGE:
-            console.log("got in created message");
             let conversationsAfterNewMessage = getConverationsAfterNewMessage(payload.createdMessage, state.conversations);
             
             return {
@@ -80,6 +78,16 @@ export default function(state=initialState, action: any) {
                 creatingConversation: payload.creatingConversation, 
                 focusedConversation: newConversation, 
                 conversations: [newConversation, ...state.conversations]
+            }
+
+        case CANCEL_CREATING_CONVERSATION: 
+            if(!state.creatingConversation) return;
+            let newConversations = state.conversations.filter(conv => conv.id != 0);
+            return {
+                ...state, 
+                conversations: newConversations, 
+                focusedConversation: newConversations[0], 
+                creatingConversation: false
             }
         
         case ADD_RECIPIENT: 

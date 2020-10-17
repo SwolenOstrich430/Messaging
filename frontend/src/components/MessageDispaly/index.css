@@ -1,6 +1,7 @@
 .message-display {
     margin-bottom: 10px;
     display: flex;
+    flex-direction: column;
 }
 
 .sender {
@@ -17,10 +18,18 @@
 
 .message-text-display {
     color: white;
-    font-size: 12px;
+    font-size: 14px;
     border-radius: 10px;
-    margin-bottom: 10px;
     margin-top: 0px;
+    margin-bottom: 5px;
     display: inline-block;
     padding: 5px;
+}
+
+.message-time-display {
+    font-size: 10px;
+    color: #d1d1d1;
+    background-color: none;
+    margin-top: 0;
+    margin-bottom: 10px;
 }

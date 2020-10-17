@@ -2,7 +2,7 @@ import React, { useState, FormEvent } from "react";
 import "./index.css";
 import { useSelector, connect } from "react-redux";
 import Conversation from "../../graphql/conversations/Conversation";
-import { addRecipient, createConversation } from "../../actions/conversations";
+import { addRecipient, createConversation, cancelCreatingConversation } from "../../actions/conversations";
 import conversations from "../../reducers/conversations";
 
 
@@ -48,19 +48,25 @@ function MessageHeader(props: any) {
                 </span>
             }
             {conversation !== undefined && Object.keys(conversation).length > 0 && conversation.users.map(recipient => (
-                (recipient.id !== currUserId) && 
+                (recipient.id != currUserId) && 
                 <span className="message-recipient-display message-recipient" key={recipient.id}>
                     {recipient.firstName} {recipient.lastName}
                 </span>
             ))}
+            <div className="creating-conversation-button-container">
+            {creatingConversation && 
+                <button className="submit-conversation-button" onClick={props.cancelCreatingConversation}>
+                    Cancel
+                </button> 
+            }
             {creatingConversation && conversation.users.length > 0 &&
                 <button className="submit-conversation-button" onClick={e => createNewConversation(e, conversation)}>
                     Create 
                 </button>
-
             }
+            </div>
         </header>
     )
 }
 
-export default connect(null, { addRecipient, createConversation })(MessageHeader);
+export default connect(null, { addRecipient, createConversation, cancelCreatingConversation })(MessageHeader);
