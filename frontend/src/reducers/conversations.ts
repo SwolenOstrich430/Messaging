@@ -42,8 +42,6 @@ export default function(state=initialState, action: any) {
 
     switch(type) {
         case GET_CONVERSATIONS:
-            console.log(payload.conversations);
-            console.log(payload.conversations[0]); 
             return {
                 ...state, 
                 conversations: payload.conversations, 

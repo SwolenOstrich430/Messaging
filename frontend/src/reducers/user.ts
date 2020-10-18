@@ -1,8 +1,9 @@
 import { AUTHENTICATE_USER, LOGOUT_USER, CREATE_USER, SHOW_LOGIN, AUTH_ERROR} from "../actions/types";
 
+let initialId: string | null = localStorage.getItem("id");
 
 const initialState = {
-    currUserId: localStorage.getItem("id"), 
+    currUserId: initialId ? parseInt(initialId) : 0, 
     token: localStorage.getItem("token"), 
     authError: {}, 
     showLogin: true
@@ -11,8 +12,7 @@ const initialState = {
 
 export default function(state=initialState, action: any) {
     const { type, payload } = action;
-    console.log("got in user reducer");
-    console.log(initialState);
+    
     switch(type) {
         case AUTHENTICATE_USER:
             localStorage.setItem("token", payload.token);
@@ -41,7 +41,6 @@ export default function(state=initialState, action: any) {
             }
         
         case AUTH_ERROR: 
-            console.log("got in the auth error reducer");
             return {
                 ...state, 
                 authError: payload.error
@@ -55,8 +54,6 @@ export default function(state=initialState, action: any) {
             }
         
         default:
-            console.log("in default"); 
-            console.log(payload);
             return {
                 ...state, 
             }

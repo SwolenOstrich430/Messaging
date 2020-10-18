@@ -1,15 +1,13 @@
 import React from "react";
 import "./index.css";
 import { dateToConversationDisplay } from "../../helpers/time/dateUtils";
-import { useSelector, connect } from "react-redux";
+import { connect } from "react-redux";
 import User from "../../graphql/users/User";
 import { focusOnConversation } from "../../actions/conversations";
 
 
 function ConversationDisplay(props: any) {
-    const creatingConversation = useSelector((state: any) => state.conversations.creatingConversation);
-    const currUserId = useSelector((state: any) => state.user.currUserId);
-    const {title, messages, users} = props.conversation;
+    const {title, messages } = props.conversation;
     let conversationContainerClass = "conversation-display-container";
 
     const getContainerClassName = (isFocused: boolean, baseClassName: string) => {

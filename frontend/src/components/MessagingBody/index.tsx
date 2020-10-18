@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "./index.css";
-import Message from "../../graphql/messages/Message";
-import User from "../../graphql/users/User";
 import MessageDisplay from "../MessageDispaly";
 import { useSelector } from "react-redux";
 import Conversation from "../../graphql/conversations/Conversation";
@@ -32,12 +30,12 @@ export default function MessagingBody(props: any) {
     }
 
     let messages = focusedConversation && getFocusedMessageConversations(conversations, focusedConversation.id);
-    
+
     return (
         <main style={getStyle()} className="messaging-body" onScroll={handleScroll}>
             {messages && messages.map(message => {
                 return (
-                    <MessageDisplay key={message.id} sent={message.senderId == currUserId} {...message}/>
+                    <MessageDisplay key={message.id} sent={parseInt(message.senderId.toString()) === currUserId} {...message}/>
                 )
             })}
         </main>

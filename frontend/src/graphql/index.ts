@@ -4,7 +4,6 @@ import { setContext } from '@apollo/client/link/context';
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { getMainDefinition } from '@apollo/client/utilities';
 
-
 const wsLink = new WebSocketLink({
     uri: "ws://localhost:8080/subscriptions",
     options: {

@@ -3,26 +3,22 @@ import "./index.css";
 import { useSelector, connect } from "react-redux";
 import Conversation from "../../graphql/conversations/Conversation";
 import { addRecipient, createConversation, cancelCreatingConversation } from "../../actions/conversations";
-import conversations from "../../reducers/conversations";
+
 
 
 function MessageHeader(props: any) {
     const creatingConversation = useSelector((state: any) => state.conversations.creatingConversation);
     const conversation: Conversation = useSelector((state: any) => state.conversations.focusedConversation);
     const addRecipientError = useSelector((state: any) => state.conversations.addRecipientError);
-    const currUserId = useSelector((state: any) => state.user.currUserId);
+    const currUserId: number = useSelector((state: any) => state.user.currUserId);
     const [newRecipient, setNewRecipient] = useState("");
-    console.log(conversation);
-    
+   
+     
     const addNewRecipient = (event: FormEvent, username: string) => {
         event.preventDefault();
         
         props.addRecipient(username);
         setNewRecipient("");
-    }
-
-    const cancelConversation = (event: FormEvent) => {
-        
     }
 
     const createNewConversation = (event: FormEvent, conversation: Conversation) => {
@@ -52,7 +48,7 @@ function MessageHeader(props: any) {
                 </span>
             }
             {conversation !== undefined && Object.keys(conversation).length > 0 && conversation.users.map(recipient => (
-                (recipient.id != currUserId) && 
+                (parseInt(recipient.id.toString()) !== currUserId) && 
                 <span className="message-recipient-display message-recipient" key={recipient.id}>
                     {recipient.firstName} {recipient.lastName}
                 </span>

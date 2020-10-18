@@ -24,9 +24,6 @@ export const authenticateUser = (authenticationRequest: AuthenticationRequest) =
         })
     })
     .catch(error => {
-        console.log("got in the error block");
-        console.log(error.message);
-        console.log(error);
         dispatch({
             type: AUTH_ERROR, 
             payload: {
@@ -60,6 +57,7 @@ export const createUser = (newUser: UserDTO) => (dispatch: Function) => {
 }
 
 export const logoutUser = () => (dispatch: Function) => {
+    console.log("got in logout link");
     dispatch({
         type: LOGOUT_USER
     })

@@ -5,8 +5,6 @@ import { connect } from "react-redux";
 import { getConversations, createdConversation } from "../../actions/conversations";
 import { createdMessage } from "../../actions/messages";
 import Conversation from "../../graphql/conversations/Conversation";
-import Message from "../../graphql/messages/Message";
-import User from "../../graphql/users/User";
 import ConversationDisplay from "../ConversationDisplay";
 
 
@@ -20,10 +18,10 @@ function ConversationList(props: any) {
         props.getConversations();
         props.createdConversation();
         props.createdMessage();
-    }, [])
+    }, [props])
     
     const getDisplayUser = (currUserId: number, conversation: Conversation) => {
-        let nonUserSenders = conversation.users.filter(user => user.id != currUserId);
+        let nonUserSenders = conversation.users.filter((user: any) => user.id != currUserId);
         let lastNonUserSenderId;
 
         for(const currMessage of conversation.messages) {

@@ -2,6 +2,7 @@ package com.app.Message_Backend.service;
 
 import com.app.Message_Backend.auth.CreateUserException;
 import com.app.Message_Backend.auth.UserDetailsImp;
+import com.app.Message_Backend.auth.UserUnauthorizedException;
 import com.app.Message_Backend.dto.UserDTO;
 import com.app.Message_Backend.entities.User;
 import com.app.Message_Backend.repository.UserRepository;
@@ -26,6 +27,9 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     @Value("${app.duplicate-user-message}")
     private String duplicateUserMessage;
+    @Value("${app.unauthorized-exception-message}")
+    private String unauthorizedMessage;
+
     public UserService() { }
 
     public User save(User user) {
@@ -57,12 +61,19 @@ public class UserService implements UserDetailsService {
         return uniqueUsers;
     }
 
-    public User getUserFromContext() {
+    public User getUserFromContext() throws UserUnauthorizedException {
         SecurityContext context = SecurityContextHolder.getContext();
+        if(context.getAuthentication() == null) {
+            System.out.println("user was null and we threw an exception");
+            throw new UserUnauthorizedException(unauthorizedMessage);
+        }
+
         String identifier = context.getAuthentication().getName();
 
         System.out.println(identifier);
-        return userRepository.findUserByUsername(identifier);
+        User user = userRepository.findUserByUsername(identifier);
+
+        return user;
     }
 
     @Override

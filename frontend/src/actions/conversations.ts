@@ -5,7 +5,7 @@ import {
     GET_CONVERSATIONS, 
     CREATED_CONVERSATION, 
     FOCUS_ON_CONVERSATION, 
-    CANCEL_CREATING_CONVERSATION
+    CANCEL_CREATING_CONVERSATION, 
 } from "./types";
 import { 
     FIND_USER_BY_USERNAME, 
@@ -32,8 +32,7 @@ export const getConversations = () => (dispatch: Function) => {
         })
     })
     .catch(error => {
-        // TODO: ACTUAL ERROR HANDLING HERE
-        console.log(error);
+        
     });
 }
 
@@ -43,7 +42,7 @@ export const createdConversation = () => (dispatch: Function) => {
     })
     .subscribe({
         next(payload) {
-            const { id, users, messages } = payload.data.createdConversation;
+            const { id, users } = payload.data.createdConversation;
             let newConversation = new Conversation(id, "", new Array<Message>(), users);
 
             dispatch({
@@ -54,8 +53,6 @@ export const createdConversation = () => (dispatch: Function) => {
             })
         }, 
         error(err) { 
-            // TODO: ACTUALY ERROR HANDLING HERE
-            console.log(err)
         }
     })
 }
@@ -130,3 +127,4 @@ export const focusOnConversation = (conversation: Conversation) => (dispatch: Fu
         }
     })
 }
+

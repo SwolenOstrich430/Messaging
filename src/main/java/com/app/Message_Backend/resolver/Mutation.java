@@ -58,12 +58,6 @@ public class Mutation implements GraphQLMutationResolver {
         Optional<User> potentialUser = Optional.ofNullable(userService.getUserFromContext());
         Set<User> foundUsers = userService.findAllByIds(ids);
 
-        if(!potentialUser.isPresent()) {
-            System.out.println("no user");
-            // TODO: if I do need to do this, then actually have a module for this
-            throw new GraphQLException("unauthorized");
-        }
-
         if(foundUsers.size() != ids.size()) {
             throw new GraphQLException("not all users valid");
         }

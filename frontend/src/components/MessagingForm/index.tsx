@@ -1,7 +1,6 @@
-import React, { useState, FormEvent, Fragment } from "react";
+import React, { useState, FormEvent } from "react";
 import { useSelector, connect } from "react-redux";
 import "./index.css";
-import Message from "../../graphql/messages/Message";
 import { createMessage } from "../../actions/messages";
 import LogoutButton from "../LogoutButton";
 
