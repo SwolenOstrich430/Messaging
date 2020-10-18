@@ -6,7 +6,6 @@ import UserDTO from "../graphql/users/UserDTO";
 
 
 export const authenticateUser = (authenticationRequest: AuthenticationRequest) => (dispatch: Function) => {
-    console.log(authenticationRequest);
     client.query({
         query: AUTHENTICATE_USER_QUE, 
         variables: {
@@ -14,7 +13,6 @@ export const authenticateUser = (authenticationRequest: AuthenticationRequest) =
         }
     })
     .then(res => {
-        console.log(res);
         const { token, id } = res.data.authenticateUser;
         
         dispatch({
@@ -26,7 +24,15 @@ export const authenticateUser = (authenticationRequest: AuthenticationRequest) =
         })
     })
     .catch(error => {
+        console.log("got in the error block");
+        console.log(error.message);
         console.log(error);
+        dispatch({
+            type: AUTH_ERROR, 
+            payload: {
+                error: error
+            }
+        })
     })
 }
 
@@ -43,6 +49,7 @@ export const createUser = (newUser: UserDTO) => (dispatch: Function) => {
         })
     })
     .catch(error => {
+        console.log(error);
         dispatch({
             type: AUTH_ERROR, 
             payload: {

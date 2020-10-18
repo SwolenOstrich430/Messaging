@@ -1,4 +1,4 @@
-import { AUTHENTICATE_USER, LOGOUT_USER, CREATE_USER, SHOW_LOGIN } from "../actions/types";
+import { AUTHENTICATE_USER, LOGOUT_USER, CREATE_USER, SHOW_LOGIN, AUTH_ERROR} from "../actions/types";
 
 
 const initialState = {
@@ -40,10 +40,18 @@ export default function(state=initialState, action: any) {
                 showLogin: true
             }
         
+        case AUTH_ERROR: 
+            console.log("got in the auth error reducer");
+            return {
+                ...state, 
+                authError: payload.error
+            }
+        
         case SHOW_LOGIN: 
             return {
                 ...state, 
-                showLogin: payload.showLogin
+                showLogin: payload.showLogin, 
+                authError: {}
             }
         
         default:

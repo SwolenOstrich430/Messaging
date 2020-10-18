@@ -43,3 +43,10 @@
     background-color: #47525e;
     color: #d1d2d3;
 }
+
+.auth-error-message {
+    width: 80%;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin-top: 0px;
+}

@@ -1,10 +1,11 @@
 import React, { useState, FormEvent } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import "./index.css";
 import { authenticateUser } from "../../actions/user";
 
 
 function LoginForm(props: any) {
+    const authError: Error = useSelector((state: any) => state.user.authError);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -14,10 +15,11 @@ function LoginForm(props: any) {
         props.authenticateUser({email, password});
     }
 
-
+    console.log(authError);
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
             <h2 className="auth-form-header">Login</h2>
+            {authError.message && <p className="auth-error-message">{authError.message}</p>}
             <label className="auth-form-label">Email</label>
             <input 
              className="auth-form-text-input" 

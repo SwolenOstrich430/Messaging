@@ -40,6 +40,8 @@ export const createdMessage = () => (dispatch: Function) => {
                 }
             })
         }, 
-        error(err) { console.log(err)}
+        error(err) { 
+            // TODO: ACTUAL ERROR HANDLING HERE
+            console.log(err)}
     })
 }

@@ -32,6 +32,7 @@ export const getConversations = () => (dispatch: Function) => {
         })
     })
     .catch(error => {
+        // TODO: ACTUAL ERROR HANDLING HERE
         console.log(error);
     });
 }
@@ -52,7 +53,10 @@ export const createdConversation = () => (dispatch: Function) => {
                 }
             })
         }, 
-        error(err) { console.log(err)}
+        error(err) { 
+            // TODO: ACTUALY ERROR HANDLING HERE
+            console.log(err)
+        }
     })
 }
 
@@ -109,7 +113,6 @@ export const createConversation = (recipientIds: Array<number>) => (dispatch: Fu
         }
     })
     .catch(error => {
-        console.log(error);
         dispatch({
             type: ADD_RECIPIENT_ERROR, 
             payload: {

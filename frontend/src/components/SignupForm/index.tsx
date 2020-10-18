@@ -1,11 +1,12 @@
 import React, { useState, FormEvent } from "react";
 import "./index.css";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { createUser } from "../../actions/user";
 import UserDTO from "../../graphql/users/UserDTO";
 
 
 function SignupForm(props: any) {
+    const authError: Error = useSelector((state: any) => state.user.authError);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
@@ -15,7 +16,6 @@ function SignupForm(props: any) {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        console.log("in handle submit");
         const userDTO: UserDTO = {
             email: email, 
             password: password, 
@@ -30,6 +30,7 @@ function SignupForm(props: any) {
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
             <h2 className="auth-form-header">Sign Up</h2>
+            {authError.message && <p className="auth-error-message">{authError.message}</p>}
             <label className="auth-form-label">First name</label>
             <input 
              className="auth-form-text-input" 

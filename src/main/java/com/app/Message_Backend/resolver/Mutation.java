@@ -1,6 +1,7 @@
 package com.app.Message_Backend.resolver;
 
 import com.app.Message_Backend.auth.AuthenticationUtils;
+import com.app.Message_Backend.auth.CreateUserException;
 import com.app.Message_Backend.dto.MessageDTO;
 import com.app.Message_Backend.dto.MessagesFactory;
 import com.app.Message_Backend.dto.UserDTO;
@@ -42,12 +43,13 @@ public class Mutation implements GraphQLMutationResolver {
         this.authenticationUtils = authenticationUtils;
     }
 
-    public User createUser(UserDTO userDetails) {
-        final String salt = authenticationUtils.getSalt().get();
-        final String hash = authenticationUtils.getHash(userDetails.getPassword(), salt).get();
+    public User createUser(UserDTO userDTO) {
+        userService.validateUser(userDTO);
 
-        // TODO: actually do something with roles
-        User newUser = UserBuilder.dtoToUser(userDetails, hash, salt);
+        final String salt = authenticationUtils.getSalt().get();
+        final String hash = authenticationUtils.getHash(userDTO.getPassword(), salt).get();
+
+        User newUser = UserBuilder.dtoToUser(userDTO, hash, salt);
         return userService.save(newUser);
     }
 
