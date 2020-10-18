@@ -20,7 +20,7 @@ const getConverationsAfterNewMessage = (newMessage: Message, conversations: Arra
     for(let conversation of conversations) {
         if(conversation.id === newMessage.conversationId) {
             let { id, title, users, messages } = conversation;
-            conversationWithNewMessage = new Conversation(id, title, [newMessage, ...messages], users);
+            conversationWithNewMessage = new Conversation(id, title, [...messages, newMessage], users);
         }
     }
   

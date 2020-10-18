@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, ReactElement, MutableRefObject } from "react";
 import "./index.css";
 import MessageDisplay from "../MessageDispaly";
 import { useSelector } from "react-redux";
@@ -10,6 +10,16 @@ export default function MessagingBody(props: any) {
     const focusedConversation: Conversation = useSelector((state: any) => state.conversations.focusedConversation);
     const currUserId: number = useSelector((state: any) => state.user.currUserId);
     const [isScrolling, setIsScrolling] = useState(false);
+
+    let scrollElem = useRef(null);
+
+    useEffect(() => scrollToBottom(scrollElem));
+
+    const scrollToBottom = (elem: any) => {
+        if(elem === undefined) return;
+        console.log("scroll to bottom");
+        elem.current.scrollIntoView();
+    }
 
     const getFocusedMessageConversations = (conversations: Array<Conversation>, conversationId: number) => {
         for(const conv of conversations) {
@@ -38,6 +48,7 @@ export default function MessagingBody(props: any) {
                     <MessageDisplay key={message.id} sent={parseInt(message.senderId.toString()) === currUserId} {...message}/>
                 )
             })}
+            <div className="messaging-body-dummy-scroll" ref={scrollElem}></div>
         </main>
     )
 }

@@ -15,7 +15,7 @@ function LoginForm(props: any) {
         props.authenticateUser({email, password});
     }
 
-    console.log(authError);
+
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
             <h2 className="auth-form-header">Login</h2>

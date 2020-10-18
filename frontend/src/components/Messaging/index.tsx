@@ -10,7 +10,7 @@ function Messaging(props: any) {
     if(localStorage.getItem("token") === null) {
         props.history.push("/");
     }
-    if(token.length === 0) {
+    if(token && token.length === 0) {
         props.history.push("/");
     }
 
