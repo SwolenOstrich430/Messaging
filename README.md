@@ -5,10 +5,11 @@ There's definitely still some improvements that have to be made, but think this 
 
 ## Demo
 ![](messaging-demo-720.gif)
-
-## Technologies User
-Spring
-GraphQL-Java-Kickstart 
-TypeScript
-React
-Redux
+<br>
+## Technologies Used
+<ul>
+  <li>Spring</li>
+  <li>GraphQL-Java-Kickstart</li>
+  <li>TypeScript</li>
+  <li>React</li>
+  <li>Redux</li>
