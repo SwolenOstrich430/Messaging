@@ -20,6 +20,7 @@ const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
     // const token = localStorage.getItem("token");
     let token = localStorage.getItem("token");
+    console.log("token in graphql index: " + token);
     return {
       headers: {
         ...headers,

@@ -12,6 +12,7 @@ import com.app.Message_Backend.entities.User;
 import com.app.Message_Backend.service.ConversationService;
 import com.app.Message_Backend.service.MessageService;
 import com.app.Message_Backend.service.UserService;
+import graphql.GraphQL;
 import graphql.GraphQLException;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import graphql.schema.DataFetchingEnvironment;
@@ -54,7 +55,6 @@ public class Mutation implements GraphQLMutationResolver {
     }
 
     public Conversation createConversation(List<Long> ids, DataFetchingEnvironment env) {
-        // TODO: handle case for if some list of users is already a conversation
         Optional<User> potentialUser = Optional.ofNullable(userService.getUserFromContext());
         Set<User> foundUsers = userService.findAllByIds(ids);
 
@@ -63,6 +63,7 @@ public class Mutation implements GraphQLMutationResolver {
         }
 
         foundUsers.add(potentialUser.get());
+
         Conversation newConversation = new Conversation(foundUsers);
         return conversationService.save(newConversation, env);
     }
@@ -70,16 +71,10 @@ public class Mutation implements GraphQLMutationResolver {
     public Message createMessage(String text, Long conversationId, DataFetchingEnvironment env) throws Exception {
         Optional<User> potentialUser = Optional.ofNullable(userService.getUserFromContext());
 
-        if(!potentialUser.isPresent()) {
-            System.out.println("no user");
-            // TODO: if I do need to do this, then actually have a module for this
-            throw new GraphQLException("unauthorized");
-        }
-
         Optional<Conversation> conversation = conversationService.findById(conversationId);
 
         if(!conversation.isPresent()) {
-            throw new GraphQLException("could not find conversation");
+            throw new GraphQLException("Conversation does not exist");
         }
 
         Message messageToCreate = new Message(text, conversation.get(), potentialUser.get().getId());

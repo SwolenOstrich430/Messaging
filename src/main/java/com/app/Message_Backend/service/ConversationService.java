@@ -1,6 +1,7 @@
 package com.app.Message_Backend.service;
 
 import com.app.Message_Backend.entities.Conversation;
+import com.app.Message_Backend.entities.User;
 import com.app.Message_Backend.publishers.ConversationPublisher;
 import com.app.Message_Backend.repository.ConversationRepository;
 import graphql.schema.DataFetchingEnvironment;
@@ -8,14 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ConversationService {
 
     @Autowired
     private ConversationRepository conversationRepository;
-
-
 
     public ConversationService() {}
 

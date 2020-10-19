@@ -59,14 +59,16 @@ public class Query implements GraphQLQueryResolver {
         return potentialUser.get();
     }
 
-    public Set<Conversation> getConversations(DataFetchingEnvironment env) {
+    public List<Conversation> getConversations(DataFetchingEnvironment env) {
         Optional<User> potentialUser = Optional.ofNullable(userService.getUserFromContext());
 
         if(!potentialUser.isPresent()) {
             throw new GraphQLException("Unauthorized");
         }
 
-        return potentialUser.get().getConversations();
+        ArrayList<Conversation> conversations = new ArrayList<>(potentialUser.get().getConversations());
+        Collections.sort(conversations);
+        return conversations;
     }
 
 }

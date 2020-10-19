@@ -12,19 +12,22 @@ const initialState = {
 
 export default function(state=initialState, action: any) {
     const { type, payload } = action;
-    
+    console.log(state);
     switch(type) {
         case AUTHENTICATE_USER:
+            console.log("got in authenticate user");
             localStorage.setItem("token", payload.token);
             localStorage.setItem("id", payload.currUserId);
-            
+            console.log("setting local storage done");
             return {
                 ...state,
                 currUserId: payload.currUserId,
-                token: payload.token
+                token: payload.token, 
+                authError: {}
             }
 
-        case LOGOUT_USER: 
+        case LOGOUT_USER:
+            console.log("got in logout user"); 
             localStorage.setItem("token", "");
             localStorage.setItem("id", "");
             return {

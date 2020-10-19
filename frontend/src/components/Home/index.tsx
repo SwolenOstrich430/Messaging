@@ -12,7 +12,9 @@ function Home(props: any) {
     const showLogin: boolean = useSelector((state: any) => state.user.showLogin);
 
     const formChangeText = showLogin ? "Sign Up" : "Login";
+    console.log("is authenticated: " + token);
     if(token && token.length > 0) {
+        console.log("got inhere");
         props.history.push("/messaging")
     }
 

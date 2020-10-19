@@ -7,10 +7,8 @@ import { useSelector } from "react-redux";
 
 function Messaging(props: any) {
     const token = useSelector((state: any) => state.user.token);
-    if(localStorage.getItem("token") === null) {
-        props.history.push("/");
-    }
-    if(token && token.length === 0) {
+
+    if(localStorage.getItem("token") === null || !token) {
         props.history.push("/");
     }
 

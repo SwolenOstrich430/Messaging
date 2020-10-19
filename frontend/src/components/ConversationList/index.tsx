@@ -13,12 +13,14 @@ function ConversationList(props: any) {
     const focusedConversation = useSelector((state: any) => state.conversations.focusedConversation);
     const currUserId = useSelector((state: any) => state.user.currUserId);
 
-
     useEffect(() => {
+        console.log("in use effect where all the stuff is triggered");
+        console.log(localStorage.getItem("token"));
+        console.log(localStorage.getItem("id"));
         props.getConversations();
         props.createdConversation();
         props.createdMessage();
-    }, [props])
+    }, [])
     
     const getDisplayUser = (currUserId: number, conversation: Conversation) => {
         let nonUserSenders = conversation.users.filter((user: any) => user.id != currUserId);

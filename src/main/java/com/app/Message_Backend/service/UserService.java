@@ -63,14 +63,14 @@ public class UserService implements UserDetailsService {
 
     public User getUserFromContext() throws UserUnauthorizedException {
         SecurityContext context = SecurityContextHolder.getContext();
-        if(context.getAuthentication() == null) {
-            System.out.println("user was null and we threw an exception");
-            throw new UserUnauthorizedException(unauthorizedMessage);
-        }
 
         String identifier = context.getAuthentication().getName();
 
-        System.out.println(identifier);
+        if(identifier == null) {
+            throw new UserUnauthorizedException(unauthorizedMessage);
+        }
+
+        System.out.println("identifier: " + identifier);
         User user = userRepository.findUserByUsername(identifier);
 
         return user;

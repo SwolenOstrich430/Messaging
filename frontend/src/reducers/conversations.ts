@@ -6,10 +6,12 @@ import {
     CREATED_CONVERSATION, 
     CREATED_MESSAGE, 
     FOCUS_ON_CONVERSATION,
-    CANCEL_CREATING_CONVERSATION
+    CANCEL_CREATING_CONVERSATION,
+    CLEAR_CONVERSATIONS
 } from "../actions/types";
 import Conversation from "../graphql/conversations/Conversation";
 import Message from "../graphql/messages/Message";
+
 
 const NEW_MESSAGE_TEXT = "New Message";
 
@@ -44,7 +46,7 @@ export default function(state=initialState, action: any) {
         case GET_CONVERSATIONS:
             return {
                 ...state, 
-                conversations: payload.conversations, 
+                conversations: payload.conversations,
                 focusedConversation: payload.conversations[0]
             }
         
@@ -114,6 +116,11 @@ export default function(state=initialState, action: any) {
             return {
                 ...state, 
                 focusedConversation: payload.focusedConversation
+            }
+        
+        case CLEAR_CONVERSATIONS: 
+            return {
+                ...initialState
             }
 
         default: {
