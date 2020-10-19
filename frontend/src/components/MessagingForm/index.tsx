@@ -14,6 +14,7 @@ function MessagingForm(props: any) {
         event.preventDefault();
         if(creatingConversation) return;
         props.createMessage(newMessage, focusedConverstaion.id);
+        setNewMessage("");
     }
 
     const handleSetMessage = (newMessage: string) => {
