@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import "./index.css";
+import { connect, useSelector } from "react-redux";
+import { createUser } from "../../actions/user";
+import UserDTO from "../../graphql/users/UserDTO";
 
 
-export default function SignupForm() {
+function SignupForm(props: any) {
+    const authError: Error = useSelector((state: any) => state.user.authError);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
@@ -10,9 +14,23 @@ export default function SignupForm() {
     const [email, setEmail] = useState("");
 
 
+    const handleSubmit = (event: FormEvent) => {
+        event.preventDefault();
+        const userDTO: UserDTO = {
+            email: email, 
+            password: password, 
+            firstName: firstName, 
+            lastName: lastName, 
+            username: username
+        }
+
+        props.createUser(userDTO);
+    }
+
     return (
-        <form className="auth-form">
+        <form className="auth-form" onSubmit={handleSubmit}>
             <h2 className="auth-form-header">Sign Up</h2>
+            {authError.message && <p className="auth-error-message">{authError.message}</p>}
             <label className="auth-form-label">First name</label>
             <input 
              className="auth-form-text-input" 
@@ -23,7 +41,7 @@ export default function SignupForm() {
             <label className="auth-form-label">Last name</label>
             <input 
              className="auth-form-text-input" 
-             type="password"
+             type="text"
              value={lastName}
              onChange={e => setLastName(e.target.value)}
             />
@@ -44,7 +62,7 @@ export default function SignupForm() {
             <label className="auth-form-label">Email</label>
             <input 
              className="auth-form-text-input" 
-             type="password"
+             type="email"
              value={email}
              onChange={e => setEmail(e.target.value)}
             />
@@ -52,3 +70,5 @@ export default function SignupForm() {
         </form>
     )
 }
+
+export default connect(null, { createUser })(SignupForm);

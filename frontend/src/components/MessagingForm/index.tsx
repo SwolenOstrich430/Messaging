@@ -1,8 +1,8 @@
 import React, { useState, FormEvent } from "react";
 import { useSelector, connect } from "react-redux";
 import "./index.css";
-import Message from "../../graphql/messages/Message";
 import { createMessage } from "../../actions/messages";
+import LogoutButton from "../LogoutButton";
 
 
 function MessagingForm(props: any) {
@@ -22,15 +22,18 @@ function MessagingForm(props: any) {
     }
 
     return (
-        <form className="messaging-form" onSubmit={handleSubmit}>
-            <input 
-             className="messaging-input" 
-             type="text" 
-             placeholder="uMessage"
-             value={newMessage}
-             onChange={e => handleSetMessage(e.target.value)}
-            />
-        </form>
+        <div className="messaging-form-container">
+            <form className="messaging-form" onSubmit={handleSubmit}>
+                <input 
+                 className="messaging-input" 
+                 type="text" 
+                 placeholder="uMessage"
+                 value={newMessage}
+                 onChange={e => handleSetMessage(e.target.value)}
+                />
+            </form>
+            <LogoutButton/>
+        </div>
     )
 }
 

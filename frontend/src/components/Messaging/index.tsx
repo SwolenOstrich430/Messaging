@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./index.css";
 import ConversationContainer from "../ConversationContainer";
 import MessagingContainer from "../MessagingContainer";
@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 
 function Messaging(props: any) {
     const token = useSelector((state: any) => state.user.token);
-    
-    if(token.length === 0) {
+
+    if(localStorage.getItem("token") === null || !token) {
         props.history.push("/");
     }
 

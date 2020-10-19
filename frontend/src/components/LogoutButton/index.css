@@ -1,0 +1,13 @@
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+    border: none;
+    background-color: transparent;
+    margin-right: 10px;
+}
+
+.logout-button:focus {
+    outline: none;
+}

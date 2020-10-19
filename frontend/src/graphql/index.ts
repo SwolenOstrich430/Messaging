@@ -4,7 +4,6 @@ import { setContext } from '@apollo/client/link/context';
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { getMainDefinition } from '@apollo/client/utilities';
 
-
 const wsLink = new WebSocketLink({
     uri: "ws://localhost:8080/subscriptions",
     options: {
@@ -21,6 +20,7 @@ const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
     // const token = localStorage.getItem("token");
     let token = localStorage.getItem("token");
+    console.log("token in graphql index: " + token);
     return {
       headers: {
         ...headers,

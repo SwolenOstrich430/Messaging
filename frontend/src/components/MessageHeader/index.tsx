@@ -2,16 +2,18 @@ import React, { useState, FormEvent } from "react";
 import "./index.css";
 import { useSelector, connect } from "react-redux";
 import Conversation from "../../graphql/conversations/Conversation";
-import { addRecipient, createConversation } from "../../actions/conversations";
+import { addRecipient, createConversation, cancelCreatingConversation } from "../../actions/conversations";
+
 
 
 function MessageHeader(props: any) {
     const creatingConversation = useSelector((state: any) => state.conversations.creatingConversation);
     const conversation: Conversation = useSelector((state: any) => state.conversations.focusedConversation);
     const addRecipientError = useSelector((state: any) => state.conversations.addRecipientError);
+    const currUserId: number = useSelector((state: any) => state.user.currUserId);
     const [newRecipient, setNewRecipient] = useState("");
-
-    
+   
+     
     const addNewRecipient = (event: FormEvent, username: string) => {
         event.preventDefault();
         
@@ -40,24 +42,31 @@ function MessageHeader(props: any) {
                     />
                 </form>
             }
-            {addRecipientError.incorrectUsername &&
+            {addRecipientError.incorrectUsername && addRecipientError.message && 
                 <span className="message-recipient-display add-recipient-error-message">
                     {addRecipientError.message}
                 </span>
             }
-            {conversation.users && conversation.users.map(recipient => (
+            {conversation !== undefined && Object.keys(conversation).length > 0 && conversation.users.map(recipient => (
+                (parseInt(recipient.id.toString()) !== currUserId) && 
                 <span className="message-recipient-display message-recipient" key={recipient.id}>
                     {recipient.firstName} {recipient.lastName}
                 </span>
             ))}
+            <div className="creating-conversation-button-container">
+            {creatingConversation && 
+                <button className="submit-conversation-button" onClick={props.cancelCreatingConversation}>
+                    Cancel
+                </button> 
+            }
             {creatingConversation && conversation.users.length > 0 &&
                 <button className="submit-conversation-button" onClick={e => createNewConversation(e, conversation)}>
                     Create 
                 </button>
-
             }
+            </div>
         </header>
     )
 }
 
-export default connect(null, { addRecipient, createConversation })(MessageHeader);
+export default connect(null, { addRecipient, createConversation, cancelCreatingConversation })(MessageHeader);

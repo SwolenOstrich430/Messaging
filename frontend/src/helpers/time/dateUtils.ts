@@ -14,3 +14,7 @@ export const dateToConversationDisplay = (date: Date): string => {
 
     return moment(date).format("MM/DD/YY")
 }
+
+export const getHoursMinutes = (date: Date) => {
+    return moment(date).format("h:mm A");
+}

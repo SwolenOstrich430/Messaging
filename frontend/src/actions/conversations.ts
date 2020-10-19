@@ -3,7 +3,9 @@ import {
     ADD_RECIPIENT, 
     ADD_RECIPIENT_ERROR, 
     GET_CONVERSATIONS, 
-    CREATED_CONVERSATION 
+    CREATED_CONVERSATION, 
+    FOCUS_ON_CONVERSATION, 
+    CANCEL_CREATING_CONVERSATION, 
 } from "./types";
 import { 
     FIND_USER_BY_USERNAME, 
@@ -30,7 +32,7 @@ export const getConversations = () => (dispatch: Function) => {
         })
     })
     .catch(error => {
-        console.log(error);
+        
     });
 }
 
@@ -40,7 +42,7 @@ export const createdConversation = () => (dispatch: Function) => {
     })
     .subscribe({
         next(payload) {
-            const { id, users, messages } = payload.data.createdConversation;
+            const { id, users } = payload.data.createdConversation;
             let newConversation = new Conversation(id, "", new Array<Message>(), users);
 
             dispatch({
@@ -50,7 +52,8 @@ export const createdConversation = () => (dispatch: Function) => {
                 }
             })
         }, 
-        error(err) { console.log(err)}
+        error(err) { 
+        }
     })
 }
 
@@ -60,6 +63,12 @@ export const creatingConversation = (creatingConversation: boolean) => (dispatch
         payload: {
             creatingConversation
         }
+    })
+}
+
+export const cancelCreatingConversation = () => (dispatch: Function) => {
+    return dispatch({
+        type: CANCEL_CREATING_CONVERSATION
     })
 }
 
@@ -101,7 +110,6 @@ export const createConversation = (recipientIds: Array<number>) => (dispatch: Fu
         }
     })
     .catch(error => {
-        console.log(error);
         dispatch({
             type: ADD_RECIPIENT_ERROR, 
             payload: {
@@ -110,3 +118,13 @@ export const createConversation = (recipientIds: Array<number>) => (dispatch: Fu
         })
     })
 }
+
+export const focusOnConversation = (conversation: Conversation) => (dispatch: Function) => {
+    dispatch({
+        type: FOCUS_ON_CONVERSATION, 
+        payload: {
+            focusedConversation: conversation
+        }
+    })
+}
+

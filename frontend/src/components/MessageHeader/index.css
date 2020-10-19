@@ -49,9 +49,13 @@
     border-radius: 5px;
 }
 
-.submit-conversation-button {
+.creating-conversation-button-container {
     align-self: flex-end;
-    margin: 0 20px 7.5px auto;
+    margin-left: auto;
+}
+
+.submit-conversation-button {
+    margin: 0 20px 5px 0;
     background-color: #1a171d;
     color: #733ea5;
     border-radius: 2.5px; 
@@ -67,4 +71,16 @@
 .submit-conversation-button:focus {
     border: 1px solid #d1d2d3;
     outline: none;
+}
+
+
+@media screen and (max-width: 640px) {
+    .submit-conversation-button {
+        width: 50px;
+        height: 20px;
+        font-size: 10px;
+        padding: 2px;
+        margin-bottom: 7.5px;
+        margin-right: 5px;
+    }
 }

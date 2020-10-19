@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, ReactElement, MutableRefObject } from "react";
 import "./index.css";
-import Message from "../../graphql/messages/Message";
-import User from "../../graphql/users/User";
 import MessageDisplay from "../MessageDispaly";
 import { useSelector } from "react-redux";
 import Conversation from "../../graphql/conversations/Conversation";
@@ -9,9 +7,19 @@ import Conversation from "../../graphql/conversations/Conversation";
 
 export default function MessagingBody(props: any) {
     const conversations: Array<Conversation> = useSelector((state: any) => state.conversations.conversations);
-    const focusedConversationId: number = useSelector((state: any) => state.conversations.focusedConversation.id);
+    const focusedConversation: Conversation = useSelector((state: any) => state.conversations.focusedConversation);
     const currUserId: number = useSelector((state: any) => state.user.currUserId);
     const [isScrolling, setIsScrolling] = useState(false);
+
+    let scrollElem = useRef(null);
+
+    useEffect(() => scrollToBottom(scrollElem));
+
+    const scrollToBottom = (elem: any) => {
+        if(elem === undefined) return;
+        console.log("scroll to bottom");
+        elem.current.scrollIntoView();
+    }
 
     const getFocusedMessageConversations = (conversations: Array<Conversation>, conversationId: number) => {
         for(const conv of conversations) {
@@ -31,11 +39,16 @@ export default function MessagingBody(props: any) {
         }
     }
 
-    let messages = getFocusedMessageConversations(conversations, focusedConversationId);
-    console.log("curr user id: " + currUserId);
+    let messages = focusedConversation && getFocusedMessageConversations(conversations, focusedConversation.id);
+
     return (
         <main style={getStyle()} className="messaging-body" onScroll={handleScroll}>
-            {messages && messages.map(message => <MessageDisplay key={message.id} sent={message.senderId === currUserId} {...message}/>)}
+            {messages && messages.map(message => {
+                return (
+                    <MessageDisplay key={message.id} sent={parseInt(message.senderId.toString()) === currUserId} {...message}/>
+                )
+            })}
+            <div className="messaging-body-dummy-scroll" ref={scrollElem}></div>
         </main>
     )
 }

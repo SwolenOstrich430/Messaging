@@ -4,10 +4,14 @@ import {
     ADD_RECIPIENT_ERROR,
     GET_CONVERSATIONS, 
     CREATED_CONVERSATION, 
-    CREATED_MESSAGE
+    CREATED_MESSAGE, 
+    FOCUS_ON_CONVERSATION,
+    CANCEL_CREATING_CONVERSATION,
+    CLEAR_CONVERSATIONS
 } from "../actions/types";
 import Conversation from "../graphql/conversations/Conversation";
 import Message from "../graphql/messages/Message";
+
 
 const NEW_MESSAGE_TEXT = "New Message";
 
@@ -17,13 +21,11 @@ const getConverationsAfterNewMessage = (newMessage: Message, conversations: Arra
 
     for(let conversation of conversations) {
         if(conversation.id === newMessage.conversationId) {
-            console.log("got in if statement");
             let { id, title, users, messages } = conversation;
-            conversationWithNewMessage = new Conversation(id, title, [newMessage, ...messages], users);
-            console.log(conversationWithNewMessage);
+            conversationWithNewMessage = new Conversation(id, title, [...messages, newMessage], users);
         }
     }
-    console.log(copyOfConversations);
+  
     return copyOfConversations.length > 0 ? 
             [conversationWithNewMessage, ...copyOfConversations] : 
             [conversationWithNewMessage];
@@ -42,11 +44,9 @@ export default function(state=initialState, action: any) {
 
     switch(type) {
         case GET_CONVERSATIONS:
-            console.log(payload.conversations);
-            console.log(payload.conversations[0]); 
             return {
                 ...state, 
-                conversations: payload.conversations, 
+                conversations: payload.conversations,
                 focusedConversation: payload.conversations[0]
             }
         
@@ -61,7 +61,6 @@ export default function(state=initialState, action: any) {
             }
 
         case CREATED_MESSAGE:
-            console.log("got in created message");
             let conversationsAfterNewMessage = getConverationsAfterNewMessage(payload.createdMessage, state.conversations);
             
             return {
@@ -79,6 +78,16 @@ export default function(state=initialState, action: any) {
                 creatingConversation: payload.creatingConversation, 
                 focusedConversation: newConversation, 
                 conversations: [newConversation, ...state.conversations]
+            }
+
+        case CANCEL_CREATING_CONVERSATION: 
+            if(!state.creatingConversation) return;
+            let newConversations = state.conversations.filter(conv => conv.id != 0);
+            return {
+                ...state, 
+                conversations: newConversations, 
+                focusedConversation: newConversations[0], 
+                creatingConversation: false
             }
         
         case ADD_RECIPIENT: 
@@ -102,6 +111,18 @@ export default function(state=initialState, action: any) {
                 ...state, 
                 addRecipientError: payload.error
             }
+
+        case FOCUS_ON_CONVERSATION: 
+            return {
+                ...state, 
+                focusedConversation: payload.focusedConversation
+            }
+        
+        case CLEAR_CONVERSATIONS: 
+            return {
+                ...initialState
+            }
+
         default: {
             return state
         }

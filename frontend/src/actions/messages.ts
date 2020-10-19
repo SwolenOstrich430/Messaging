@@ -1,7 +1,6 @@
-import { CREATE_MESSAGE, CREATED_MESSAGE } from "./types";
+import { CREATED_MESSAGE } from "./types";
 import { CREATE_MESSAGE_MUT, CREATED_MESSAGE_SUB } from "../graphql/messages/messages";
 import client from "../graphql/index";
-import { CREATE_CONVERSATION_MUT } from "../graphql/conversations/converstions";
 import Message from "../graphql/messages/Message";
 
 
@@ -30,8 +29,6 @@ export const createdMessage = () => (dispatch: Function) => {
         next(payload) {
             const { id, text, timeSent, conversationId, senderId } = payload.data.sentMessage;
             let newMessage = new Message(id, text, conversationId, senderId, timeSent);
-            console.log("got in created message sub")
-            console.log(newMessage);
             dispatch({
                 type: CREATED_MESSAGE, 
                 payload: {
@@ -39,6 +36,7 @@ export const createdMessage = () => (dispatch: Function) => {
                 }
             })
         }, 
-        error(err) { console.log(err)}
+        error(err) { 
+        }
     })
 }

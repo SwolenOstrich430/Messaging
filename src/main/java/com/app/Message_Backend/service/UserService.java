@@ -1,9 +1,13 @@
 package com.app.Message_Backend.service;
 
+import com.app.Message_Backend.auth.CreateUserException;
 import com.app.Message_Backend.auth.UserDetailsImp;
+import com.app.Message_Backend.auth.UserUnauthorizedException;
+import com.app.Message_Backend.dto.UserDTO;
 import com.app.Message_Backend.entities.User;
 import com.app.Message_Backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +25,10 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+    @Value("${app.duplicate-user-message}")
+    private String duplicateUserMessage;
+    @Value("${app.unauthorized-exception-message}")
+    private String unauthorizedMessage;
 
     public UserService() { }
 
@@ -53,12 +61,19 @@ public class UserService implements UserDetailsService {
         return uniqueUsers;
     }
 
-    public User getUserFromContext() {
+    public User getUserFromContext() throws UserUnauthorizedException {
         SecurityContext context = SecurityContextHolder.getContext();
+
         String identifier = context.getAuthentication().getName();
 
-        System.out.println(identifier);
-        return userRepository.findUserByUsername(identifier);
+        if(identifier == null) {
+            throw new UserUnauthorizedException(unauthorizedMessage);
+        }
+
+        System.out.println("identifier: " + identifier);
+        User user = userRepository.findUserByUsername(identifier);
+
+        return user;
     }
 
     @Override
@@ -71,5 +86,20 @@ public class UserService implements UserDetailsService {
 
         User user = potentialUser.get();
         return new UserDetailsImp(user.getUsername(), user.getPassword());
+    }
+
+    public void validateUser(UserDTO userDTO) throws CreateUserException {
+        Optional<User> userFromEmailCheck = Optional.ofNullable(userRepository.findUserByEmail(userDTO.getEmail()));
+        if(userFromEmailCheck.isPresent()) {
+            throw new CreateUserException(String.format(duplicateUserMessage,
+                    "email", userFromEmailCheck.get().getEmail()));
+        }
+
+        Optional<User> userFromUsernameCheck = Optional.ofNullable(userRepository.findUserByUsername(
+                userDTO.getUsername()));
+        if(userFromUsernameCheck.isPresent()) {
+            throw new CreateUserException(String.format(duplicateUserMessage, "username",
+                    userFromUsernameCheck.get().getUsername()));
+        }
     }
 }
